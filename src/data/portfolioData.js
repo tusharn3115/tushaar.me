@@ -7,20 +7,19 @@ export const roles = [
         role: "Frontend Developer",
         date: "2023 — Present",
         logo: "F",
+        description:
+            "Building and optimizing responsive web interfaces, improving performance, and collaborating closely with designers to ship high-quality user experiences.",
     },
     {
         company: "Freelance",
         role: "Full Stack Engineer",
         date: "2021 — 2023",
         logo: "FR",
+        description:
+            "Delivered end-to-end web solutions for clients, handling UI development, backend integrations, and deployment while ensuring clean, scalable architecture.",
     },
-    {
-        company: "Keizer",
-        role: "UI Developer",
-        date: "2019 — 2021",
-        logo: "K",
-    }
 ];
+
 
 export const projects = [
     {

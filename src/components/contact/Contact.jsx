@@ -1,7 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Github, Twitter, Linkedin, Mail, Paperclip } from 'lucide-react';
-import Tooltip from '../ui/Tooltip';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Github, Twitter, Linkedin, Mail, FileText, Check, Copy, ExternalLink } from 'lucide-react';
+import Tooltip from '../ui/Tooltip'; // Assuming this handles positioning
+import git from "../../assets/git_ss.png";
+import twitter from "../../assets/twitter_ss.png";
 
 // ----------------------------------------------------------------------
 // CONFIGURATION
@@ -13,7 +15,8 @@ const socialLinks = [
         icon: Github,
         href: 'https://github.com/yourusername',
         type: 'screenshot',
-        preview: 'https://placehold.co/600x400/1e293b/cbd5e1/png?text=GitHub+Profile'
+        preview: git,
+        color: 'hover:text-white group-hover:border-white/30'
     },
     {
         id: 'twitter',
@@ -21,7 +24,8 @@ const socialLinks = [
         icon: Twitter,
         href: 'https://twitter.com/yourusername',
         type: 'screenshot',
-        preview: 'https://placehold.co/600x400/1e293b/cbd5e1/png?text=Twitter+Profile'
+        preview: twitter,
+        color: 'hover:text-blue-400 group-hover:border-blue-400/30'
     },
     {
         id: 'linkedin',
@@ -29,59 +33,105 @@ const socialLinks = [
         icon: Linkedin,
         href: 'https://linkedin.com/in/yourusername',
         type: 'screenshot',
-        preview: 'https://placehold.co/600x400/1e293b/cbd5e1/png?text=LinkedIn+Profile'
+        preview: 'https://placehold.co/600x400/1e293b/cbd5e1/png?text=LinkedIn+Profile',
+        color: 'hover:text-blue-500 group-hover:border-blue-500/30'
     },
     {
         id: 'mail',
-        label: 'Mail',
+        label: 'Email',
         icon: Mail,
         href: 'mailto:negitushar923@gmail.com',
-        type: 'text', // Special type for Mail
-        content: 'negitushar923@gmail.com'
+        type: 'copy', // Changed type to 'copy' for logic handling
+        content: 'negitushar923@gmail.com',
+        color: 'hover:text-emerald-400 group-hover:border-emerald-400/30'
     },
     {
         id: 'resume',
         label: 'Resume',
-        icon: Paperclip,
+        icon: FileText,
         href: '/resume.pdf',
         type: 'screenshot',
-        preview: 'https://placehold.co/400x600/1e293b/cbd5e1/png?text=Resume+PDF'
+        preview: 'https://placehold.co/400x600/1e293b/cbd5e1/png?text=Resume+PDF',
+        color: 'hover:text-orange-400 group-hover:border-orange-400/30'
     }
 ];
 
 const SocialPill = ({ link }) => {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = (e) => {
+        if (link.type === 'copy') {
+            e.preventDefault(); // Prevent mailto opening if user wants to copy
+            navigator.clipboard.writeText(link.content);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        }
+    };
+
     // 1. The Trigger Button
     const TriggerButton = (
         <motion.a
             href={link.href}
-            target="_blank"
+            target={link.type === 'copy' ? undefined : "_blank"}
             rel="noopener noreferrer"
-            // whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-gray-200 transition-colors cursor-pointer hover:border-white/20"
+            onClick={link.type === 'copy' ? handleCopy : undefined}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.96 }}
+            className={`group relative flex items-center gap-2.5 px-5 py-3 bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-full transition-all duration-300 ${link.color} hover:bg-white/[0.08] cursor-pointer`}
         >
-            <link.icon size={18} strokeWidth={2} className="text-gray-300" />
-            <span className="text-sm font-medium font-inter">{link.label}</span>
+            {/* Icon */}
+            <div className="relative">
+                <link.icon
+                    size={18}
+                    strokeWidth={2}
+                    className="text-gray-400 transition-colors duration-300 group-hover:text-current"
+                />
+            </div>
+
+            {/* Label */}
+            <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors font-inter">
+                {link.label}
+            </span>
+
+            {/* Shine Effect */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none" />
         </motion.a>
     );
 
     // 2. The Tooltip Content
-    const TooltipContent = link.type === 'text' ? (
-        // CLEAN TEXT STYLE: No extra background div, just the text.
-        // The parent Tooltip component handles the main floating container.
-        <div className="py-1 px-1">
-            <span className="text-sm font-medium text-gray-200 tracking-wide font-mono">
-                {link.content}
-            </span>
+    const TooltipContent = link.type === 'copy' ? (
+        // EMAIL / COPY STYLE
+        <div className="flex items-center gap-3 py-2 px-3 bg-[#0a0a0a] border border-white/10 rounded-lg shadow-xl">
+            <div className={`p-1.5 rounded-md ${copied ? 'bg-emerald-500/10 text-emerald-500' : 'bg-white/5 text-gray-400'}`}>
+                {copied ? <Check size={14} /> : <Copy size={14} />}
+            </div>
+            <div className="flex flex-col">
+                <span className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold mb-0.5">
+                    {copied ? 'Copied!' : 'Click to copy'}
+                </span>
+                <span className="text-xs font-mono text-gray-200 font-medium">
+                    {link.content}
+                </span>
+            </div>
         </div>
     ) : (
-        // IMAGE STYLE
-        <div className="w-[280px] h-[170px] rounded-lg overflow-hidden bg-gray-900 border border-white/10 shadow-xl p-1">
-            <img
-                src={link.preview}
-                alt={`${link.label} Preview`}
-                className="w-full h-full object-cover rounded-md opacity-90"
-            />
+        // IMAGE / PREVIEW STYLE
+        <div className="p-1 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl">
+            <div className="relative w-[260px] h-[150px] rounded-lg overflow-hidden bg-gray-900 group">
+                <img
+                    src={link.preview}
+                    alt={`${link.label} Preview`}
+                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-105 transform"
+                />
+
+                {/* Overlay on Image */}
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-xs font-medium text-white">
+                        <span>Visit {link.label}</span>
+                        <ExternalLink size={10} />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 
@@ -89,7 +139,6 @@ const SocialPill = ({ link }) => {
         <Tooltip
             content={TooltipContent}
             text={TriggerButton}
-            underline={false}
         />
     );
 };
@@ -97,22 +146,34 @@ const SocialPill = ({ link }) => {
 const Contact = () => {
     return (
         <motion.section
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-            className="py-12 mb-20"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="py-24"
         >
-            <div className="flex flex-col items-start">
-                {/* Fixed Visibility: Lighter colors for better contrast */}
-                <h3 className="text-lg text-gray-400 font-medium font-instrument italic mb-2">
-                    Let's connect
-                </h3>
-                <h2 className="text-3xl font-semibold text-gray-400 font-instrument tracking-tight">
-                    Find me on these platforms
-                </h2>
+            <div className="container mx-auto px-4">
+                <div className="flex flex-col items-start gap-2">
+                    {/* Header */}
+                    <div className="space-y-4 mb-8">
+                        <div className="flex items-center gap-3">
+                            <span className="w-8 h-[1px] bg-gray-600/50"></span>
+                            <span className="text-sm font-medium text-gray-400 uppercase tracking-widest">
+                                Contact
+                            </span>
+                        </div>
+                        <h2 className="text-3xl md:text-4xl font-semibold text-white font-instrument tracking-tight leading-tight">
+                            Let's build something <br />
+                            <span className="text-gray-500">extraordinary together.</span>
+                        </h2>
+                    </div>
 
-                <div className="flex flex-wrap items-center gap-3 mt-8">
-                    {socialLinks.map((link) => (
-                        <SocialPill key={link.id} link={link} />
-                    ))}
+                    {/* Links Grid */}
+                    <div className="flex flex-wrap items-center gap-4">
+                        {socialLinks.map((link) => (
+                            <SocialPill key={link.id} link={link} />
+                        ))}
+                    </div>
                 </div>
             </div>
         </motion.section>
