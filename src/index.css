@@ -1,1 +1,49 @@
 @import "tailwindcss";
+
+.font-instrument {
+  font-family: "Instrument Serif", serif;
+}
+
+.font-inter {
+  font-family: "Inter", sans-serif;
+}
+
+.premium-shadow {
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.02),
+    0 2px 4px -1px rgba(0, 0, 0, 0.02),
+    0 20px 40px -10px rgba(0, 0, 0, 0.06);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.floating-tooltip {
+  background: #09090b;
+  /* Zinc 950 */
+  color: #fafafa;
+  /* Zinc 50 */
+  border: 1px solid #27272a;
+  /* Zinc 800 */
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.noise-bg {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+.mask-image-r {
+  mask-image: linear-gradient(to right, black 80%, transparent 100%);
+}
+
+.mask-image-b {
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
