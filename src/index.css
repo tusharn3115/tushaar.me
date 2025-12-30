@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  background-color: #FDFCF8;
+  color: #4b5563;
+  /* gray-600 */
+}
+
+:root.dark body {
+  background-color: #09090b;
+  color: #9ca3af;
+  /* gray-400 */
+}
+
 .font-instrument {
   font-family: "Instrument Serif", serif;
 }
@@ -46,4 +60,90 @@
 
 .mask-image-b {
   mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+@keyframes grow {
+  0% {
+    stroke-dashoffset: 1px;
+    stroke-dasharray: 0 350px;
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  40% {
+    stroke-dasharray: 350px 0;
+  }
+
+  85% {
+    stroke-dasharray: 350px 0;
+  }
+
+  95%,
+  to {
+    stroke-dasharray: 0 350px;
+  }
+}
+
+.logo-path {
+  stroke-dashoffset: 1px;
+  stroke-dasharray: 350px 0;
+  animation: grow 10s ease forwards infinite;
+  transform-origin: center;
+  stroke: #303030;
+  animation-delay: 0s;
+}
+
+:root.dark .logo-path {
+  stroke: #fdfdfd;
+}
+
+@media (prefers-reduced-motion) {
+  .logo-path {
+    animation: none !important;
+    stroke-dasharray: unset !important;
+  }
+}
+
+@media print {
+  .logo-path {
+    animation: none !important;
+    stroke-dasharray: unset !important;
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Ensure the top layer doesn't catch clicks during transition */
+::view-transition {
+  pointer-events: none;
+}
+
+/* 
+  Theme Transition Z-Index Logic:
+  We always want the "Dark" layer to be on top to act as the expanding/shrinking circle.
+*/
+
+/* Case: Light -> Dark. Active DOM is .dark. New View is Dark. Put New on Top. */
+:root.dark::view-transition-new(root) {
+  z-index: 2147483647;
+}
+
+:root.dark::view-transition-old(root) {
+  z-index: 1;
+}
+
+/* Case: Dark -> Light. Active DOM is NOT .dark. Old View is Dark. Put Old on Top. */
+:root:not(.dark)::view-transition-old(root) {
+  z-index: 2147483647;
+}
+
+:root:not(.dark)::view-transition-new(root) {
+  z-index: 1;
 }

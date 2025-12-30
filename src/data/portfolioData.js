@@ -5,7 +5,7 @@ export const roles = [
     {
         company: "FantasticFare",
         role: "Frontend Developer",
-        date: "2023 — Present",
+        date: "Aug 2025 — Present",
         logo: "F",
         description:
             "Building and optimizing responsive web interfaces, improving performance, and collaborating closely with designers to ship high-quality user experiences.",
@@ -13,7 +13,7 @@ export const roles = [
     {
         company: "Freelance",
         role: "Full Stack Engineer",
-        date: "2021 — 2023",
+        date: "Aug 2024 — July 2025",
         logo: "FR",
         description:
             "Delivered end-to-end web solutions for clients, handling UI development, backend integrations, and deployment while ensuring clean, scalable architecture.",

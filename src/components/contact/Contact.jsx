@@ -1,9 +1,18 @@
+'use client';
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, Twitter, Linkedin, Mail, FileText, Check, Copy, ExternalLink } from 'lucide-react';
-import Tooltip from '../ui/Tooltip'; // Assuming this handles positioning
-import git from "../../assets/git_ss.png";
-import twitter from "../../assets/twitter_ss.png";
+import { Github, Twitter, Linkedin, Mail, FileText, Check, Copy, ExternalLink, ArrowUpRight } from 'lucide-react';
+import SectionHeading from '../ui/SectionHeading';
+
+// --- ASSETS ---
+// Make sure these paths match your project structure
+import gitImg from "../../assets/git_ss.png";
+import twitterImg from "../../assets/twitter_ss.png";
+
+// --- PLACEHOLDERS (Fallbacks) ---
+const PLACEHOLDER_LINKEDIN = "https://placehold.co/600x350/0a66c2/ffffff/png?text=LinkedIn+Preview";
+const PLACEHOLDER_RESUME = "https://placehold.co/400x500/ffffff/000000/png?text=Resume+PDF";
 
 // ----------------------------------------------------------------------
 // CONFIGURATION
@@ -13,133 +22,142 @@ const socialLinks = [
         id: 'github',
         label: 'GitHub',
         icon: Github,
-        href: 'https://github.com/yourusername',
-        type: 'screenshot',
-        preview: git,
-        color: 'hover:text-white group-hover:border-white/30'
+        href: 'https://github.com/tusharn3115', // Update with your actual URL
+        type: 'image',
+        preview: gitImg, // FIXED: Using the imported variable
+        color: 'group-hover:text-black group-hover:dark:text-white group-hover:border-black/20 group-hover:dark:border-white/20 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10'
     },
     {
         id: 'twitter',
         label: 'Twitter',
         icon: Twitter,
         href: 'https://twitter.com/yourusername',
-        type: 'screenshot',
-        preview: twitter,
-        color: 'hover:text-blue-400 group-hover:border-blue-400/30'
+        type: 'image',
+        preview: twitterImg, // FIXED: Using the imported variable
+        color: 'group-hover:text-blue-400 group-hover:border-blue-400/20 bg-blue-500/5 hover:bg-blue-500/10'
     },
     {
         id: 'linkedin',
         label: 'LinkedIn',
         icon: Linkedin,
         href: 'https://linkedin.com/in/yourusername',
-        type: 'screenshot',
-        preview: 'https://placehold.co/600x400/1e293b/cbd5e1/png?text=LinkedIn+Profile',
-        color: 'hover:text-blue-500 group-hover:border-blue-500/30'
+        type: 'image',
+        preview: PLACEHOLDER_LINKEDIN,
+        color: 'group-hover:text-blue-500 group-hover:border-blue-500/20 bg-blue-600/5 hover:bg-blue-600/10'
     },
     {
         id: 'mail',
         label: 'Email',
         icon: Mail,
         href: 'mailto:negitushar923@gmail.com',
-        type: 'copy', // Changed type to 'copy' for logic handling
+        type: 'copy',
         content: 'negitushar923@gmail.com',
-        color: 'hover:text-emerald-400 group-hover:border-emerald-400/30'
+        color: 'group-hover:text-emerald-400 group-hover:border-emerald-400/20 bg-emerald-500/5 hover:bg-emerald-500/10'
     },
     {
         id: 'resume',
         label: 'Resume',
         icon: FileText,
         href: '/resume.pdf',
-        type: 'screenshot',
-        preview: 'https://placehold.co/400x600/1e293b/cbd5e1/png?text=Resume+PDF',
-        color: 'hover:text-orange-400 group-hover:border-orange-400/30'
+        type: 'image',
+        preview: PLACEHOLDER_RESUME,
+        color: 'group-hover:text-orange-400 group-hover:border-orange-400/20 bg-orange-500/5 hover:bg-orange-500/10'
     }
 ];
 
 const SocialPill = ({ link }) => {
+    const [isHovered, setIsHovered] = useState(false);
     const [copied, setCopied] = useState(false);
 
-    const handleCopy = (e) => {
+    const handleAction = (e) => {
         if (link.type === 'copy') {
-            e.preventDefault(); // Prevent mailto opening if user wants to copy
+            e.preventDefault();
             navigator.clipboard.writeText(link.content);
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
         }
     };
 
-    // 1. The Trigger Button
-    const TriggerButton = (
-        <motion.a
-            href={link.href}
-            target={link.type === 'copy' ? undefined : "_blank"}
-            rel="noopener noreferrer"
-            onClick={link.type === 'copy' ? handleCopy : undefined}
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.96 }}
-            className={`group relative flex items-center gap-2.5 px-5 py-3 bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-full transition-all duration-300 ${link.color} hover:bg-white/[0.08] cursor-pointer`}
-        >
-            {/* Icon */}
-            <div className="relative">
-                <link.icon
-                    size={18}
-                    strokeWidth={2}
-                    className="text-gray-400 transition-colors duration-300 group-hover:text-current"
-                />
-            </div>
-
-            {/* Label */}
-            <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors font-inter">
-                {link.label}
-            </span>
-
-            {/* Shine Effect */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none" />
-        </motion.a>
-    );
-
-    // 2. The Tooltip Content
-    const TooltipContent = link.type === 'copy' ? (
-        // EMAIL / COPY STYLE
-        <div className="flex items-center gap-3 py-2 px-3 bg-[#0a0a0a] border border-white/10 rounded-lg shadow-xl">
-            <div className={`p-1.5 rounded-md ${copied ? 'bg-emerald-500/10 text-emerald-500' : 'bg-white/5 text-gray-400'}`}>
-                {copied ? <Check size={14} /> : <Copy size={14} />}
-            </div>
-            <div className="flex flex-col">
-                <span className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold mb-0.5">
-                    {copied ? 'Copied!' : 'Click to copy'}
-                </span>
-                <span className="text-xs font-mono text-gray-200 font-medium">
-                    {link.content}
-                </span>
-            </div>
-        </div>
-    ) : (
-        // IMAGE / PREVIEW STYLE
-        <div className="p-1 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl">
-            <div className="relative w-[260px] h-[150px] rounded-lg overflow-hidden bg-gray-900 group">
-                <img
-                    src={link.preview}
-                    alt={`${link.label} Preview`}
-                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-105 transform"
-                />
-
-                {/* Overlay on Image */}
-                <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-xs font-medium text-white">
-                        <span>Visit {link.label}</span>
-                        <ExternalLink size={10} />
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-
     return (
-        <Tooltip
-            content={TooltipContent}
-            text={TriggerButton}
-        />
+        <div
+            className="relative inline-block"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            {/* --- TOOLTIP --- */}
+            <AnimatePresence>
+                {isHovered && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 z-50 pointer-events-none"
+                    >
+                        {link.type === 'image' ? (
+                            // IMAGE TOOLTIP
+                            <div className="relative w-[240px] h-[140px] rounded-xl overflow-hidden bg-zinc-900 border border-zinc-800 shadow-2xl">
+                                <img
+                                    src={link.preview}
+                                    alt={link.label}
+                                    className="w-full h-full object-cover opacity-80"
+                                />
+                                {/* Gradient Overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
+
+                                {/* Link Label Overlay */}
+                                <div className="absolute bottom-0 left-0 right-0 p-3 flex items-center justify-between">
+                                    <span className="text-[10px] font-semibold text-white/90 uppercase tracking-wider bg-black/50 backdrop-blur-md px-2 py-1 rounded-md border border-white/10">
+                                        {link.label} Profile
+                                    </span>
+                                    <ArrowUpRight size={14} className="text-white/70" />
+                                </div>
+                            </div>
+                        ) : (
+                            // TEXT TOOLTIP (Email)
+                            <div className="flex items-center gap-3 py-2 px-4 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl whitespace-nowrap">
+                                <div className={`p-1 rounded-md ${copied ? 'text-emerald-500' : 'text-zinc-400'}`}>
+                                    {copied ? <Check size={14} /> : <Copy size={14} />}
+                                </div>
+                                <div className="flex flex-col text-left">
+                                    <span className={`text-[10px] font-bold uppercase tracking-wider ${copied ? 'text-emerald-500' : 'text-zinc-500'}`}>
+                                        {copied ? 'Copied!' : 'Copy Email'}
+                                    </span>
+                                    <span className="text-xs font-mono text-zinc-300">
+                                        {link.content}
+                                    </span>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Tooltip Arrow */}
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[1px] w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-zinc-800"></div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* --- PILL BUTTON --- */}
+            <motion.a
+                href={link.href}
+                target={link.type === 'copy' ? undefined : "_blank"}
+                rel="noopener noreferrer"
+                onClick={handleAction}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.96 }}
+                className={`group relative flex items-center gap-2.5 px-5 py-3 backdrop-blur-md border border-black/5 dark:border-white/5 rounded-full transition-all duration-300 cursor-pointer overflow-hidden ${link.color}`}
+            >
+                <div className="relative z-10">
+                    <link.icon
+                        size={18}
+                        strokeWidth={2}
+                        className="text-zinc-500 dark:text-zinc-400 transition-colors duration-300 group-hover:text-current"
+                    />
+                </div>
+                <span className="text-sm font-medium text-zinc-600 dark:text-zinc-300 group-hover:text-black dark:group-hover:text-white transition-colors z-10">
+                    {link.label}
+                </span>
+            </motion.a>
+        </div>
     );
 };
 
@@ -152,24 +170,21 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
             className="py-24"
         >
-            <div className="container mx-auto px-4">
-                <div className="flex flex-col items-start gap-2">
-                    {/* Header */}
-                    <div className="space-y-4 mb-8">
-                        <div className="flex items-center gap-3">
-                            <span className="w-8 h-[1px] bg-gray-600/50"></span>
-                            <span className="text-sm font-medium text-gray-400 uppercase tracking-widest">
-                                Contact
-                            </span>
-                        </div>
-                        <h2 className="text-3xl md:text-4xl font-semibold text-white font-instrument tracking-tight leading-tight">
+            <div className="container mx-auto px-4 max-w-4xl">
+                <SectionHeading>Contact</SectionHeading>
+
+                <div className="flex flex-col items-start gap-8 mt-8">
+                    <div className="space-y-4 max-w-2xl">
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight transition-colors">
                             Let's build something <br />
-                            <span className="text-gray-500">extraordinary together.</span>
+                            <span className="text-gray-400 dark:text-zinc-500">extraordinary together.</span>
                         </h2>
+                        {/* <p className="text-zinc-400 leading-relaxed">
+                            Whether you have a distinct idea or just a rough concept, I'm always up for a conversation about new projects and opportunities.
+                        </p> */}
                     </div>
 
-                    {/* Links Grid */}
-                    <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex flex-wrap items-center gap-3">
                         {socialLinks.map((link) => (
                             <SocialPill key={link.id} link={link} />
                         ))}

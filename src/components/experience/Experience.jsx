@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import SectionHeading from '../ui/SectionHeading';
 import { roles } from '../../data/portfolioData';
@@ -8,71 +8,52 @@ const Experience = () => {
     const [activeIndex, setActiveIndex] = useState(null);
 
     return (
-        <section className="max-w-3xl mx-auto py-12">
+        <section className="max-w-3xl mx-auto py-5">
             <SectionHeading>Experience</SectionHeading>
 
-            <div className="relative flex flex-col gap-2">
-                {/* Visual Timeline Line */}
-                <div className="absolute left-[29px] top-4 bottom-4 w-[1px] bg-gradient-to-b from-gray-100 via-gray-200 to-gray-100 hidden sm:block" />
-
+            <div className="flex flex-col gap-8" onMouseLeave={() => setActiveIndex(null)}>
                 {roles.map((role, index) => {
                     const isOpen = activeIndex === index;
+                    const isAnyOpen = activeIndex !== null;
 
                     return (
-                        <div
+                        <motion.div
                             key={index}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1 }}
                             onMouseEnter={() => setActiveIndex(index)}
-                            onMouseLeave={() => setActiveIndex(null)}
-                            className={`group relative w-full cursor-pointer rounded-2xl transition-colors duration-200 border ${isOpen ? 'bg-slate-50/80 border-slate-200' : 'bg-transparent border-transparent hover:bg-slate-50/50'
+                            className={`group relative cursor-pointer transition-all duration-500 ease-out ${isAnyOpen && !isOpen ? 'opacity-40 blur-[1px]' : 'opacity-100'
                                 }`}
                         >
-                            <div className="flex items-start gap-6 p-4">
-
-                                {/* Left: Logo */}
-                                <div className="relative flex-shrink-0 z-10">
-                                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-xl transition-all duration-200 shadow-sm border ${isOpen ? 'bg-white border-slate-200 text-slate-900 scale-105 shadow-md' : 'bg-white border-gray-100 text-slate-400'
-                                        }`}>
-                                        {role.logo}
-                                    </div>
-                                    {/* Current Role Indicator */}
-                                    {role.isCurrent && (
-                                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white shadow-sm" />
-                                    )}
+                            {/* Header */}
+                            <div className="flex items-baseline justify-between border-b border-black/10 dark:border-white/10 pb-4 group-hover:border-black/30 dark:group-hover:border-white/30 transition-colors duration-300">
+                                <div className="flex items-baseline gap-4">
+                                    <h3 className="text-3xl md:text-4xl font-instrument italic text-slate-900 dark:text-white transition-colors">
+                                        {role.company}
+                                    </h3>
+                                    <span className="text-sm font-inter text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors">
+                                        {role.role}
+                                    </span>
                                 </div>
+                                <span className="text-xs font-mono text-slate-400 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300 transition-colors">
+                                    {role.date}
+                                </span>
+                            </div>
 
-                                {/* Right: Content */}
-                                <div className="flex-grow pt-1">
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex flex-col">
-                                            <div className="flex items-center gap-2">
-                                                <h3 className={`text-lg font-bold tracking-tight transition-colors duration-200 ${isOpen ? 'text-slate-900' : 'text-slate-700'}`}>
-                                                    {role.company}
-                                                </h3>
-                                                <ArrowUpRight
-                                                    size={14}
-                                                    className={`transition-all duration-200 ${isOpen ? 'opacity-100 translate-x-0 text-slate-400' : 'opacity-0 -translate-x-2'}`}
-                                                />
-                                            </div>
-                                            <p className="text-sm text-slate-500 font-medium italic font-serif mt-0.5">
-                                                {role.role}
-                                            </p>
-                                        </div>
-
-                                        <div className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all duration-200 ${isOpen ? 'bg-white border-slate-200 text-slate-900 shadow-sm' : 'bg-transparent border-transparent text-slate-400'
-                                            }`}>
-                                            {role.date}
-                                        </div>
-                                    </div>
-
-                                    {/* Accordion Body */}
+                            {/* Expanded Content */}
+                            <AnimatePresence>
+                                {isOpen && (
                                     <motion.div
-                                        initial={false}
-                                        animate={isOpen ? { height: "auto", opacity: 1, marginTop: 12 } : { height: 0, opacity: 0, marginTop: 0 }}
-                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: "auto", opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
                                         className="overflow-hidden"
                                     >
-                                        <div className="relative pl-4 border-l-2 border-slate-200">
-                                            <p className="text-sm text-slate-600 leading-relaxed font-light">
+                                        <div className="pt-4 pb-2">
+                                            <p className="text-base font-light text-slate-600 dark:text-slate-300 font-inter leading-relaxed max-w-xl">
                                                 {role.description}
                                             </p>
 
@@ -81,7 +62,7 @@ const Experience = () => {
                                                     {role.skills.split('•').map((skill, i) => (
                                                         <span
                                                             key={i}
-                                                            className="text-[10px] px-2.5 py-1 bg-white border border-slate-100 rounded-md text-slate-600 font-medium shadow-sm tracking-wide"
+                                                            className="text-[11px] uppercase tracking-wider px-2 py-1 bg-black/5 dark:bg-white/5 rounded text-slate-600 dark:text-slate-300"
                                                         >
                                                             {skill.trim()}
                                                         </span>
@@ -90,9 +71,9 @@ const Experience = () => {
                                             )}
                                         </div>
                                     </motion.div>
-                                </div>
-                            </div>
-                        </div>
+                                )}
+                            </AnimatePresence>
+                        </motion.div>
                     );
                 })}
             </div>

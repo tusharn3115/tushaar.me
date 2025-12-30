@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Github, ArrowUpRight, Loader2 } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
 
 const GitHubSection = () => {
     const username = 'tusharn3115'; // Your username
@@ -12,17 +13,31 @@ const GitHubSection = () => {
     const [error, setError] = useState(false);
 
     // PREMIUM DARK GREEN THEME
-    const theme = {
+    const { theme: currentTheme } = useTheme();
+
+    // PREMIUM DARK GREEN THEME (Light Mode)
+    const lightTheme = {
         textMain: '#0f172a', // Slate 900
         textSub: '#64748b',  // Slate 500
-
-        // Dark Green Variants
-        level0: '#f1f5f9', // Slate 100 (Empty)
+        level0: '#f1f5f9', // Slate 100
         level1: '#86efac', // Green 300
         level2: '#22c55e', // Green 500
         level3: '#15803d', // Green 700
         level4: '#022c22', // Green 950
     };
+
+    // DARK MODE THEME (GitHub-like)
+    const darkTheme = {
+        textMain: '#f8fafc', // Slate 50
+        textSub: '#94a3b8',  // Slate 400
+        level0: '#1e293b', // Slate 800
+        level1: '#0e4429', // Dark Green
+        level2: '#006d32', // Medium Green
+        level3: '#26a641', // Bright Green
+        level4: '#39d353', // Neon Green
+    };
+
+    const theme = currentTheme === 'dark' ? darkTheme : lightTheme;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,7 +58,7 @@ const GitHubSection = () => {
                     }
                 });
 
-                const lastYearWeeks = weeks.slice(-52);
+                const lastYearWeeks = weeks.slice(-38);
 
                 setContributionData({
                     total: data.totalContributions,
@@ -68,7 +83,7 @@ const GitHubSection = () => {
         return theme.level4;
     };
 
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 
     if (error) return null;
 
@@ -96,7 +111,7 @@ const GitHubSection = () => {
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.3 }}
-                        className="text-2xl font-bold tracking-tight" style={{ color: theme.textMain }}
+                        className="text-2xl font-bold tracking-tight transition-colors duration-300" style={{ color: theme.textMain }}
                     >
                         @{username}
                     </motion.h3>
@@ -112,32 +127,44 @@ const GitHubSection = () => {
                     className="flex items-center gap-1 text-sm font-semibold transition-all duration-300 group/link"
                     style={{ color: theme.textMain }}
                 >
-                    <span className="relative after:absolute after:bg-slate-900 after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300">
+                    <span className="relative after:absolute after:bg-current after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300">
                         View Profile
                     </span>
-                    <ArrowUpRight size={16} className="text-slate-400 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 group-hover/link:text-slate-900" />
+                    <ArrowUpRight size={16} className="text-slate-400 dark:text-slate-500 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 group-hover/link:text-current" />
                 </motion.a>
             </div>
 
             {loading ? (
                 <div className="h-[150px] flex flex-col items-center justify-center w-full gap-3">
                     <Loader2 className="animate-spin" size={28} style={{ color: theme.level2 }} />
-                    <span className="text-sm font-medium animate-pulse" style={{ color: theme.level3 }}>Loading history...</span>
+                    <span className="text-sm font-medium animate-pulse transition-colors duration-300" style={{ color: theme.level3 }}>Loading history...</span>
                 </div>
             ) : (
                 <div className="w-full flex flex-col items-center">
 
                     <div className="w-full">
                         {/* Month Labels */}
-                        <div className="flex text-[10px] font-medium mb-3 ml-8 w-full justify-between pr-8" style={{ color: theme.textSub }}>
-                            {months.map((m, i) => (
-                                <span key={i}>{m}</span>
-                            ))}
+                        <div className="flex text-[10px] font-medium mb-3 ml-8 w-max gap-[3px]" style={{ color: theme.textSub }}>
+                            {contributionData?.weeks.map((week, i) => {
+                                const firstDay = week[0];
+                                const date = new Date(firstDay.date);
+                                const month = date.toLocaleString('default', { month: 'short' });
+
+                                // Show label if it's the first week of the month (roughly)
+                                const dayOfMonth = date.getDate();
+                                const showLabel = dayOfMonth <= 7;
+
+                                return (
+                                    <span key={i} className="w-[11px] text-center inline-block">
+                                        {showLabel ? month : ''}
+                                    </span>
+                                );
+                            })}
                         </div>
 
                         <div className="flex gap-[3px] justify-center">
                             {/* Days of Week Labels */}
-                            <div className="flex flex-col justify-between gap-[3px] mr-3 mt-[16px] h-[88px]" style={{ color: theme.textSub }}>
+                            <div className="flex flex-col justify-between gap-[3px] mr-3 mt-[16px] h-[88px] transition-colors duration-300" style={{ color: theme.textSub }}>
                                 <span className="text-[9px] h-[10px] leading-[10px]">Mon</span>
                                 <span className="text-[9px] h-[10px] leading-[10px]">Wed</span>
                                 <span className="text-[9px] h-[10px] leading-[10px]">Fri</span>
@@ -161,7 +188,7 @@ const GitHubSection = () => {
                                                         damping: 20,
                                                         delay: wIndex * 0.005 + dIndex * 0.005
                                                     }}
-                                                    className={`w-[11px] h-[11px] rounded-[2px] cursor-pointer`}
+                                                    className={`w-[11px] h-[11px] rounded-[2px] cursor-pointer transition-colors duration-500`}
                                                     style={{ backgroundColor: bgColor }}
                                                 />
 
@@ -176,12 +203,12 @@ const GitHubSection = () => {
                                                             group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 
                                                             transition-all duration-200 ease-out origin-bottom">
 
-                                                    <div className="bg-slate-900 text-white text-[10px] py-2 px-3 rounded-lg shadow-xl whitespace-nowrap relative flex flex-col items-center">
+                                                    <div className="bg-slate-900 dark:bg-slate-800 text-white text-[10px] py-2 px-3 rounded-lg shadow-xl whitespace-nowrap relative flex flex-col items-center">
                                                         <span className="font-bold mb-0.5">{day.contributionCount} contributions</span>
                                                         <span className="text-slate-400 text-[9px] font-medium uppercase tracking-wider">{day.date}</span>
 
                                                         {/* Tooltip Arrow */}
-                                                        <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[1px] border-4 border-transparent border-t-slate-900"></div>
+                                                        <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[1px] border-4 border-transparent border-t-slate-900 dark:border-t-slate-800"></div>
                                                     </div>
                                                 </div>
                                             </div>

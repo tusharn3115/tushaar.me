@@ -25,14 +25,14 @@ const ComponentsGallery = () => {
             <div className="mb-10 px-1 flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                     <SectionHeading>Interface Library</SectionHeading>
-                    <p className="text-sm text-gray-500 -mt-4 max-w-md font-light leading-relaxed">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 -mt-4 max-w-md font-light leading-relaxed transition-colors">
                         A curated collection of isolated UI components, micro-interactions, and
                         design system experiments crafted with React & Framer Motion.
                     </p>
                 </div>
 
                 {/* Decorative Pill */}
-                <div className="hidden md:flex items-center gap-2 text-xs font-medium text-gray-400 bg-gray-100/50 px-3 py-1 rounded-full border border-gray-100">
+                <div className="hidden md:flex items-center gap-2 text-xs font-medium text-gray-400 dark:text-gray-500 bg-gray-100/50 dark:bg-white/5 px-3 py-1 rounded-full border border-gray-100 dark:border-white/5 transition-colors">
                     <Layers size={12} />
                     <span>{componentsImages.length} Components</span>
                 </div>
@@ -46,7 +46,7 @@ const ComponentsGallery = () => {
                             key={i}
                             layoutId={`card-${i}`}
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                            className="relative rounded-xl overflow-hidden bg-gray-50 border border-gray-100 aspect-[4/5]"
+                            className="relative rounded-xl overflow-hidden bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 aspect-[4/5] transition-colors"
                         >
                             <img
                                 src={item.src}
@@ -58,7 +58,7 @@ const ComponentsGallery = () => {
                 </div>
 
                 {/* Bottom Fade & CTA */}
-                <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#FDFCF8] via-[#FDFCF8] to-transparent z-10 flex items-end justify-center pb-8 pointer-events-none">
+                <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#FDFCF8] via-[#FDFCF8] to-transparent dark:from-[#09090b] dark:via-[#09090b] z-10 flex items-end justify-center pb-8 pointer-events-none transition-colors duration-300">
 
                     {/* BUTTON */}
                     <button
