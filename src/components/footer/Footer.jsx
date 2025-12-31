@@ -27,10 +27,10 @@ const Footer = () => {
             initial="hidden"
             animate="visible"
             variants={{
-                hidden: { opacity: 0 },
-                visible: { opacity: 1 },
+                hidden: { opacity: 0, filter: "blur(10px)" },
+                visible: { opacity: 1, filter: "blur(0px)", transition: { duration: 0.5, ease: "easeOut" } },
             }}
-            className="pt-8 flex flex-col sm:flex-row justify-between items-center text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400 font-inter font-medium transition-colors"
+            className="flex flex-col sm:flex-row justify-between items-center text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400 font-inter font-medium transition-colors"
         >
             <p>© 2025 Tushar Negi.</p>
 

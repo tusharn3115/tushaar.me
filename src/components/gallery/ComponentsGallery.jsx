@@ -1,119 +1,119 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Box, Layers } from 'lucide-react';
-import SectionHeading from '../ui/SectionHeading';
+import { ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { componentsImages } from '../../data/portfolioData';
+import CursorTooltip from '../ui/CursorTooltip';
 
-// Mock data enhancement
-const items = componentsImages.map((src, i) => ({
+const items = componentsImages.slice(0, 6).map((item, i) => ({
     id: i,
-    src,
-    title: `Component ${i + 1}`,
-    category: i % 2 === 0 ? "Interaction" : "UI Module"
+    src: item.src,
+    title: item.title,
+    tag: i % 2 === 0 ? "Framer Motion" : "React Component",
+    index: String(i + 1).padStart(2, '0')
 }));
 
 const ComponentsGallery = () => {
+    const [activeTitle, setActiveTitle] = useState(null);
+
     return (
-        <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative py-12"
-        >
-            {/* Header */}
-            <div className="mb-10 px-1 flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div>
-                    <SectionHeading>Interface Library</SectionHeading>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 -mt-4 max-w-md font-light leading-relaxed transition-colors">
-                        A curated collection of isolated UI components, micro-interactions, and
-                        design system experiments crafted with React & Framer Motion.
-                    </p>
-                </div>
+        <section className="py-20 bg-transparent">
+            <CursorTooltip title={activeTitle} />
+            <div className="container mx-auto px-6">
 
-                {/* Decorative Pill */}
-                <div className="hidden md:flex items-center gap-2 text-xs font-medium text-gray-400 dark:text-gray-500 bg-gray-100/50 dark:bg-white/5 px-3 py-1 rounded-full border border-gray-100 dark:border-white/5 transition-colors">
-                    <Layers size={12} />
-                    <span>{componentsImages.length} Components</span>
-                </div>
-            </div>
+                {/* Refined Header */}
+                {/* Refined Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="mb-16 border-b border-black/5 dark:border-white/5 pb-8 flex justify-between items-end"
+                >
+                    <div className="space-y-1">
+                        <span className="text-[9px] font-mono tracking-[0.3em] uppercase text-gray-400 block">
+                            Archive v2.0
+                        </span>
+                        <h2 className="text-3xl font-light tracking-tight text-gray-900 dark:text-white">
+                            Components <span className="font-serif italic text-gray-500 dark:text-gray-400">I have cooked</span>
+                        </h2>
+                    </div>
+                    <span className="text-[10px] font-mono text-gray-400 hidden md:block">
+                        Total / 06
+                    </span>
+                </motion.div>
 
-            {/* Gallery Grid */}
-            <div className="relative">
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 h-[400px] overflow-hidden mask-image-b">
+                {/* Tightened Asymmetric Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-y-16 md:gap-y-20 gap-x-8">
                     {items.map((item, i) => (
                         <motion.div
                             key={i}
-                            layoutId={`card-${i}`}
-                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                            className="relative rounded-xl overflow-hidden bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 aspect-[4/5] transition-colors"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
+                            onMouseEnter={() => setActiveTitle(item.title)}
+                            onMouseLeave={() => setActiveTitle(null)}
+                            className={`relative group md:col-span-12 ${i % 2 !== 0 ? 'md:mt-32 lg:col-start-8 lg:col-span-5' : 'lg:col-span-7'
+                                }`}
                         >
-                            <img
-                                src={item.src}
-                                alt={item.title}
-                                className="w-full h-full object-cover"
-                            />
+                            {/* Metadata Layer - Tighter spacing */}
+                            {/* <div className="flex items-center gap-3 mb-3">
+                                <span className="text-[10px] font-mono text-gray-700 dark:text-gray-300 opacity-70">
+                                    {item.index}
+                                </span>
+                                <h3 className="text-base font-normal tracking-tight text-gray-900 dark:text-gray-200 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">
+                                    {item.title}
+                                </h3>
+                            </div> */}
+
+                            {/* Image Container - Clean & Sharp */}
+                            <div className="relative aspect-[16/10] overflow-hidden bg-gray-50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+                                {item.src.endsWith('.mp4') ? (
+                                    <video
+                                        src={item.src}
+                                        autoPlay loop muted playsInline
+                                        className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 ease-in-out"
+                                    />
+                                ) : (
+                                    <img
+                                        src={item.src}
+                                        alt={item.title}
+                                        className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 ease-in-out"
+                                    />
+                                )}
+
+                                {/* Minimal Corner Icon */}
+                                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                                    <ArrowUpRight size={16} className="text-white mix-blend-difference" />
+                                </div>
+                            </div>
+
+                            {/* Minimal Footer */}
+                            {/* <div className="mt-3 flex justify-between items-center">
+                                <span className="text-[9px] font-mono uppercase tracking-widest text-gray-400">
+                                    {item.tag}
+                                </span>
+                                <div className="h-[1px] w-0 group-hover:w-8 bg-gray-900 dark:bg-white transition-all duration-500" />
+                            </div> */}
                         </motion.div>
                     ))}
                 </div>
 
-                {/* Bottom Fade & CTA */}
-                <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#FDFCF8] via-[#FDFCF8] to-transparent dark:from-[#09090b] dark:via-[#09090b] z-10 flex items-end justify-center pb-8 pointer-events-none transition-colors duration-300">
-
-                    {/* BUTTON */}
-                    <button
-                        className="pointer-events-auto relative overflow-hidden flex items-center gap-3 
-                        /* Glassy & Premium Styles */
-                        bg-black/90 backdrop-blur-xl border border-white/10 
-                        text-white pl-6 pr-5 py-3.5 rounded-full 
-                        shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.3)] 
-                        transition-all duration-300 group cursor-pointer hover:scale-105"
-                    >
-                        {/* --- THE FLARE --- 
-                            Moves Left -> Right.
-                            Slow, smooth wash over the glass.
-                        */}
-                        <div className="absolute top-0 bottom-0 w-20 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-30deg] z-10 animate-flare-slow pointer-events-none" />
-
-                        {/* Button Content */}
-                        <Box size={16} className="text-white/90 relative z-20" />
-                        <span className="text-sm font-medium tracking-wide relative z-20">Browse Full Library</span>
-                        <ArrowRight size={14} className="text-white/90 relative z-20 group-hover:translate-x-0.5 transition-transform" />
-                    </button>
+                {/* Minimal CTA - Reduced Margin */}
+                <div className="mt-10 flex justify-center">
+                    <Link to="/component" className="group flex items-center gap-6 px-8 py-3 transition-all duration-300 cursor-pointer">
+                        <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-gray-500 group-hover:text-black dark:group-hover:text-white">
+                            View All Components
+                        </span>
+                        <div className="relative w-8 h-[1px] bg-gray-300 dark:bg-gray-700 overflow-hidden">
+                            <div className="absolute inset-0 bg-gray-900 dark:bg-white -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
+                        </div>
+                    </Link>
                 </div>
+
             </div>
-
-            {/* Animation Logic */}
-            <style jsx>{`
-                @keyframes flare-slow {
-                    /* Start off-screen LEFT */
-                    0% { 
-                        left: -100%; 
-                    }
-                    /* Move to off-screen RIGHT smoothly (takes 50% of the timeline) */
-                    50% { 
-                        left: 200%; 
-                    }
-                    /* Stay there for the rest of the loop (Delay) */
-                    100% { 
-                        left: 200%; 
-                    }
-                }
-                
-                .animate-flare-slow {
-                    /* Duration: 5s total loop
-                       Movement: Takes ~2.5s (very smooth)
-                       Delay: Takes ~2.5s before repeating
-                    */
-                    animation: flare-slow 5s infinite ease-in-out;
-                }
-
-                .mask-image-b {
-                    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-                    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-                }
-            `}</style>
-        </motion.section>
+        </section>
     );
 };
 

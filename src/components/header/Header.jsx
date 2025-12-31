@@ -35,13 +35,20 @@ const Header = () => {
     const mapLink = "https://www.google.com/maps/place/Chandigarh,+India";
 
     return (
-        <motion.section variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="relative mb-12">
+        <motion.section
+            variants={{
+                hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
+                visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.5, ease: "easeOut" } }
+            }}
+            className="relative mb-12"
+        >
             {/* Banner Image */}
             <div className="w-full h-56 rounded-[2rem] overflow-hidden relative border border-black/5 dark:border-white/10 premium-shadow group transition-colors duration-300">
                 <img
-                    src="https://i.pinimg.com/originals/62/92/03/6292035399b2d8cc0dd5dfcbfff8745a.gif"
+                    // src="https://i.pinimg.com/originals/cd/0f/1a/cd0f1af4a7a7564d20ad4cb64559d175.gif"
+                    src="https://i.pinimg.com/originals/51/2f/c3/512fc362a4ca2663778db016c2b7f703.gif"
                     alt="Profile Banner"
-                    className="w-full h-full object-cover object-top opacity-90 "
+                    className="w-full h-full object-cover object-center opacity-90"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
 

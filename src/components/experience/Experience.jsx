@@ -8,7 +8,13 @@ const Experience = () => {
     const [activeIndex, setActiveIndex] = useState(null);
 
     return (
-        <section className="max-w-3xl mx-auto py-5">
+        <motion.section
+            variants={{
+                hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
+                visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.5, ease: "easeOut" } }
+            }}
+            className="max-w-3xl mx-auto py-5"
+        >
             <SectionHeading>Experience</SectionHeading>
 
             <div className="flex flex-col gap-8" onMouseLeave={() => setActiveIndex(null)}>
@@ -77,7 +83,7 @@ const Experience = () => {
                     );
                 })}
             </div>
-        </section>
+        </motion.section>
     );
 };
 

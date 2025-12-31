@@ -164,11 +164,11 @@ const SocialPill = ({ link }) => {
 const Contact = () => {
     return (
         <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="py-24"
+            variants={{
+                hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
+                visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.5, ease: "easeOut" } }
+            }}
+        // className="py-24"
         >
             <div className="container mx-auto px-4 max-w-4xl">
                 <SectionHeading>Contact</SectionHeading>

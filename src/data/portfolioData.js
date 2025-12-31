@@ -1,5 +1,11 @@
-
-import React from 'react';
+import askai from "../assets/vids/aiask.mp4"
+import dynamic from "../assets/vids/dynamic-island.mp4"
+import file from "../assets/vids/file-tree.mp4"
+import folder from "../assets/vids/folderv2.mp4"
+import peeling_checkbox from "../assets/vids/Peeling_Checkbox.mp4"
+import qrcode from "../assets/vids/qrcode.mp4"
+import recorder from "../assets/vids/recorder.mp4"
+import btn from "../assets/vids/submitbtn_v2.1.mp4"
 
 export const roles = [
     {
@@ -46,10 +52,12 @@ export const projects = [
 ];
 
 export const componentsImages = [
-    "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1614850523060-8da1d56ae167?q=80&w=2670&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?q=80&w=2574&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2670&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2670&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=2674&auto=format&fit=crop"
+    { src: askai, title: "AI Assistant" },
+    { src: dynamic, title: "Dynamic Island" },
+    { src: file, title: "File Tree" },
+    { src: folder, title: "Folder Interaction" },
+    { src: peeling_checkbox, title: "Peeling Checkbox" },
+    { src: qrcode, title: "QR Scanner" },
+    { src: recorder, title: "Voice Memo" },
+    { src: btn, title: "Smart Submit" }
 ];

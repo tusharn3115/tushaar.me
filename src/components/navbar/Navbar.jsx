@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { Github, Instagram, Twitter, Linkedin } from 'lucide-react';
 import Logo from '../ui/Logo';
@@ -24,9 +25,9 @@ const Navbar = () => {
     };
 
     const navLinks = [
-        { name: 'Blog', href: '#' },
-        { name: 'Projects', href: '#' },
-        { name: 'Components', href: '#' },
+        { name: 'Blog', href: '/blog' },
+        { name: 'Projects', href: '/' }, // Redirect to home for now
+        { name: 'Components', href: '/component' },
     ];
 
     const iconLinks = [
@@ -42,9 +43,9 @@ const Navbar = () => {
         >
             {/* Left: Animated Calligraphy "TN" Logo */}
             <div className="pointer-events-auto px-4 py-2 rounded-full transition-colors duration-300">
-                <div className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
+                <Link to="/" className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
                     <Logo />
-                </div>
+                </Link>
             </div>
 
             {/* Right: Navigation Links & Icons */}
@@ -52,13 +53,13 @@ const Navbar = () => {
                 {/* Text Links */}
                 <div className="hidden md:flex items-center gap-6">
                     {navLinks.map((link) => (
-                        <a
+                        <Link
                             key={link.name}
-                            href={link.href}
+                            to={link.href}
                             className="text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300"
                         >
                             {link.name}
-                        </a>
+                        </Link>
                     ))}
                 </div>
 

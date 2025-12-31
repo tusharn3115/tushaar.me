@@ -1,66 +1,88 @@
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 // --- Components ---
 import Navbar from './components/navbar/Navbar';
 import Plum from './components/background/Plum';
-import Header from './components/header/Header';
-import GitHubSection from './components/github/GitHubSection';
-import Projects from './components/projects/Projects';
-import ComponentsGallery from './components/gallery/ComponentsGallery';
-import Experience from './components/experience/Experience';
-import Contact from './components/contact/Contact';
-import Footer from './components/footer/Footer';
-import SectionHeading from './components/ui/SectionHeading';
+import Home from './components/home/Home';
+import BlogList from './components/blog/BlogList';
+import BlogPost from './components/blog/BlogPost';
+import ComponentsPage from './components/component-page/ComponentsPage';
+
+import { AnimatePresence, motion } from 'framer-motion';
+
+// Scroll to top on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
+// --- Layout Wrapper to handle conditional rendering ---
+const AppContent = () => {
+  const { pathname } = useLocation();
+  const isComponentPage = pathname === '/component';
+
+  return (
+    <>
+      <ScrollToTop />
+
+      {/* Conditionally render Global Utils */}
+      {!isComponentPage && (
+        <>
+          <Navbar />
+          <Plum />
+        </>
+      )}
+
+      {/* Main Content Area */}
+      <AnimatePresence mode="wait">
+        {isComponentPage ? (
+          // Full Screen Layout for Components Page
+          <motion.main
+            key="component-layout"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="min-h-screen bg-black text-white"
+          >
+            <Routes>
+              <Route path="/component" element={<ComponentsPage />} />
+            </Routes>
+          </motion.main>
+        ) : (
+          // Standard Layout
+          <motion.div
+            key="standard-layout"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="min-h-screen text-gray-600 dark:text-gray-400 font-inter selection:bg-gray-900 selection:text-white pb-32"
+          >
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 relative z-10 w-full">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/blog" element={<BlogList />} />
+                <Route path="/blog/:id" element={<BlogPost />} />
+              </Routes>
+            </main>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
 
 // --- Main Application ---
 export default function Portfolio() {
   return (
-    <>
-      <div className="min-h-screen text-gray-600 dark:text-gray-400 font-inter selection:bg-gray-900 selection:text-white pb-32">
-
-        <Navbar />
-        <Plum />
-        <main className="max-w-2xl mx-auto px-4 sm:px-6 pt-24 relative z-10">
-
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
-            }}
-            className="space-y-20"
-          >
-
-            {/* 1. Header Section (Banner + Profile) */}
-            <Header />
-
-            {/* 2. GitHub Section */}
-            <motion.section variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
-              <SectionHeading>Engineering Activity</SectionHeading>
-              <GitHubSection />
-            </motion.section>
-
-            {/* 3. Experience Section */}
-            <Experience />
-
-            {/* 4. Components Section */}
-            <ComponentsGallery />
-
-            {/* 5. Projects (FAQ Style) */}
-            <Projects />
-
-            {/* 6. Contact Section */}
-            <Contact />
-
-            {/* Footer */}
-            <Footer />
-
-          </motion.div>
-        </main>
-      </div>
-    </>
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
