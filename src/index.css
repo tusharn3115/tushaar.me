@@ -147,3 +147,56 @@ body {
 :root:not(.dark)::view-transition-new(root) {
   z-index: 1;
 }
+
+/* Custom Premium Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 6px;
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  /* Subtle track */
+  border-radius: 10px;
+  margin: 0 4px;
+  /* Margin on sides */
+}
+
+:root.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  /* Softer track for dark mode */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  /* Gradient thumb matching the graph greens */
+  background: linear-gradient(90deg, #86efac 0%, #22c55e 100%);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  /* Ensures border acts as padding/gap */
+  transition: background 0.3s ease;
+}
+
+:root.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #15803d 0%, #39d353 100%);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #4ade80 0%, #16a34a 100%);
+  /* Brighter on hover */
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+:root.dark .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #166534 0%, #22c55e 100%);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+/* Hide scrollbar buttons */
+.custom-scrollbar::-webkit-scrollbar-button {
+  display: none;
+}

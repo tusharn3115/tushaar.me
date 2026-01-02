@@ -13,7 +13,7 @@ const Experience = () => {
                 hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
                 visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.5, ease: "easeOut" } }
             }}
-            className="max-w-3xl mx-auto py-5"
+            className="max-w-3xl mx-auto"
         >
             <SectionHeading>Experience</SectionHeading>
 

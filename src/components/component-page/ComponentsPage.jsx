@@ -1,208 +1,248 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { componentsImages } from '../../data/portfolioData';
+import { componentsList } from '../../data/componentData.jsx';
 import { useTheme } from '../../context/ThemeContext';
 import Logo from '../ui/Logo';
+import CodeBlock from '../ui-components/CodeBlock';
 import {
     PanelLeftClose,
     PanelLeftOpen,
-    Command,
     Sun,
     Moon,
-    Maximize,
     Code,
-    Heart,
-    Home
+    Eye,
+    ChevronRight,
+    Search
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { cn } from '../../lib/utils'; // Assuming you have this utility
 
 const ComponentsPage = () => {
     const [selectedId, setSelectedId] = useState(0);
     const [isSidebarOpen, setSidebarOpen] = useState(true);
+    const [viewMode, setViewMode] = useState('preview'); // 'preview' | 'code'
     const { theme, toggleTheme } = useTheme();
+    const [searchQuery, setSearchQuery] = useState('');
 
-    const selectedItem = componentsImages[selectedId];
+    const selectedItem = componentsList[selectedId];
 
-    // Mock categories
-    const sections = [
-        { title: 'SECTIONS', items: ['Spotlight Gallery', 'Sticky Scroll', 'Hero Section'] },
-        { title: 'CARDS', items: ['Border Frame', 'Mango Cards', 'Media Player'] },
-        { title: 'BACKGROUNDS', items: ['Raycast Background', 'Aurora Bars'] },
-    ];
+    // Filter and Group items
+    const filteredItems = componentsList.filter(item =>
+        item.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const categories = filteredItems.reduce((acc, item) => {
+        if (!acc[item.category]) acc[item.category] = [];
+        acc[item.category].push(item);
+        return acc;
+    }, {});
 
     return (
-        <div className="flex h-screen bg-white dark:bg-[#09090b] text-gray-900 dark:text-white overflow-hidden font-inter selection:bg-pink-500/30 transition-colors duration-500">
+        <div className="flex h-screen bg-white dark:bg-[#09090b] text-zinc-950 dark:text-zinc-50 overflow-hidden font-inter selection:bg-zinc-200 dark:selection:bg-zinc-800 transition-colors duration-500">
 
             {/* Sidebar */}
             <motion.aside
                 initial={false}
-                animate={{ width: isSidebarOpen ? 280 : 0 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} // Bezier for smooth "Apple-like" slide
-                className="h-full border-r border-gray-200 dark:border-[#27272a] bg-gray-50/50 dark:bg-[#09090b] flex flex-col flex-shrink-0 overflow-hidden relative z-20"
+                animate={{ width: isSidebarOpen ? 260 : 0, opacity: isSidebarOpen ? 1 : 0 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="h-full border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#09090b] flex flex-col flex-shrink-0 overflow-hidden relative z-20 group/sidebar"
             >
-                <div className="w-[280px] h-full flex flex-col"> {/* Fixed width container to prevent text reflow during collapse */}
-
+                <div className="w-[260px] h-full flex flex-col">
                     {/* Header */}
-                    <div className="p-4 h-16 flex items-center justify-between border-b border-gray-200 dark:border-[#27272a] flex-shrink-0">
-                        <Link to="/" className="flex items-center gap-2 group">
-                            <div className="w-8 h-8 flex items-center justify-center text-black dark:text-white transition-transform group-hover:scale-90">
-                                <Logo />
+                    <div className="h-14 px-4 flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 flex-shrink-0">
+                        <Link to="/" className="flex items-center gap-2 group opacity-80 hover:opacity-100 transition-opacity">
+                            <div className="w-6 h-6 flex items-center justify-center">
+                                <Logo className="w-full h-full" />
                             </div>
-                            <span className="font-medium tracking-tight text-sm">Portfolio</span>
+                            <span className="font-semibold text-sm tracking-tight">Portfolio</span>
                         </Link>
-                        {/* Tiny keyboard shortcut hint */}
                         <button
                             onClick={() => setSidebarOpen(false)}
-                            className="p-1.5 rounded-md text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#27272a] transition-all"
+                            className="p-1.5 rounded-md text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all"
                         >
-                            <PanelLeftClose size={18} />
+                            <PanelLeftClose size={16} />
                         </button>
                     </div>
 
-                    {/* Scrollable List */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-8 custom-scrollbar">
-                        {/* Library */}
-                        <div>
-                            <h3 className="text-[10px] font-bold text-gray-400 dark:text-gray-500 tracking-widest mb-3 uppercase pl-3">
-                                Library
-                            </h3>
-                            <div className="space-y-0.5">
-                                {componentsImages.map((item, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => setSelectedId(index)}
-                                        className={`w-full text-left px-3 py-2 rounded-md text-sm transition-all duration-200 border-l-2 ${selectedId === index
-                                            ? 'bg-gray-100 dark:bg-[#27272a] text-black dark:text-white border-pink-500 font-medium shadow-sm'
-                                            : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#27272a]/50 border-transparent'
-                                            }`}
-                                    >
-                                        {item.title}
-                                    </button>
-                                ))}
-                            </div>
+                    {/* Search */}
+                    <div className="p-3 pb-1">
+                        <div className="relative">
+                            <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-400" />
+                            <input
+                                type="text"
+                                placeholder="Search components..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg py-1.5 pl-8 pr-3 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-zinc-200 dark:focus:ring-zinc-800 transition-all placeholder:text-zinc-400"
+                            />
                         </div>
+                    </div>
 
-                        {/* Mock Sections */}
-                        {sections.map((section, idx) => (
-                            <div key={idx}>
-                                <h3 className="text-[10px] font-bold text-gray-400 dark:text-gray-500 tracking-widest mb-3 uppercase pl-3">
-                                    {section.title}
+                    {/* Content */}
+                    <div className="flex-1 overflow-y-auto px-3 py-4 space-y-6 custom-scrollbar">
+                        {Object.entries(categories).map(([category, items]) => (
+                            <div key={category}>
+                                <h3 className="text-[10px] font-bold text-zinc-400 dark:text-zinc-600 uppercase tracking-widest mb-2 px-2">
+                                    {category}
                                 </h3>
-                                <div className="space-y-0.5 opacity-40 pointer-events-none">
-                                    {section.items.map((item, i) => (
-                                        <div
-                                            key={i}
-                                            className="w-full text-left px-3 py-2 rounded-md text-sm text-gray-500 dark:text-gray-400 flex items-center justify-between"
-                                        >
-                                            {item}
-                                        </div>
-                                    ))}
+                                <div className="space-y-0.5">
+                                    {items.map((item) => {
+                                        const globalIndex = componentsList.findIndex(i => i.id === item.id);
+                                        const isActive = selectedId === globalIndex;
+                                        return (
+                                            <button
+                                                key={item.id}
+                                                onClick={() => {
+                                                    setSelectedId(globalIndex);
+                                                    setViewMode('preview');
+                                                }}
+                                                className={cn(
+                                                    "w-full text-left px-2 py-1.5 rounded-md text-sm transition-all duration-200 flex items-center justify-between group",
+                                                    isActive
+                                                        ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white font-medium shadow-sm"
+                                                        : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-900 hover:text-zinc-900 dark:hover:text-zinc-200"
+                                                )}
+                                            >
+                                                <span>{item.title}</span>
+                                                {isActive && (
+                                                    <motion.div layoutId="active-indicator" className="w-1 h-1 rounded-full bg-zinc-400 dark:bg-zinc-500" />
+                                                )}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         ))}
+
+                        {Object.keys(categories).length === 0 && (
+                            <div className="text-center py-10 text-zinc-400 text-xs">
+                                No components found.
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Footer Info */}
+                    <div className="p-4 border-t border-zinc-200 dark:border-zinc-800 flex flex-col gap-1">
+                        <div className="flex justify-between items-center text-[10px] text-zinc-400 font-mono">
+                            <span className="flex items-center gap-1.5">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                </span>
+                                System Operational
+                            </span>
+                            <span>v2.0</span>
+                        </div>
                     </div>
                 </div>
             </motion.aside>
 
-
             {/* Main Content */}
-            <main className="flex-1 flex flex-col min-w-0 bg-white dark:bg-[#09090b] relative z-10">
+            <main className="flex-1 flex flex-col min-w-0 bg-zinc-50/50 dark:bg-[#09090b] relative z-10 font-sans">
 
                 {/* Top Toolbar */}
-                <header className="h-16 border-b border-gray-200 dark:border-[#27272a] flex items-center justify-between px-6 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-sm flex-shrink-0 z-10">
-                    <div className="flex items-center gap-4">
+                <header className="h-14 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-6 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-md sticky top-0 z-30">
+                    <div className="flex items-center gap-3">
                         {!isSidebarOpen && (
-                            <>
-                                <button
-                                    onClick={() => setSidebarOpen(true)}
-                                    className="p-2 -ml-2 rounded-md text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#27272a] transition-all"
-                                    title="Open Sidebar"
-                                >
-                                    <PanelLeftOpen size={18} />
-                                </button>
-                                <div className="h-4 w-[1px] bg-gray-200 dark:bg-[#27272a]" />
-                            </>
+                            <button
+                                onClick={() => setSidebarOpen(true)}
+                                className="p-2 -ml-2 rounded-md text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all"
+                            >
+                                <PanelLeftOpen size={18} />
+                            </button>
                         )}
+                        {!isSidebarOpen && <div className="h-4 w-[1px] bg-zinc-200 dark:bg-zinc-800" />}
 
-                        <h1 className="text-sm font-medium text-gray-900 dark:text-white">
-                            {selectedItem?.title}
-                        </h1>
+                        <div className="flex items-center gap-2 text-sm text-zinc-500">
+                            <span>Components</span>
+                            <ChevronRight size={14} className="text-zinc-300 dark:text-zinc-700" />
+                            <span className="font-medium text-zinc-900 dark:text-zinc-100">{selectedItem?.title}</span>
+                        </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                        <TooltipButton icon={<Heart size={16} />} />
-                        <TooltipButton icon={<Command size={16} />} />
-                        <TooltipButton icon={<Code size={16} />} />
+                    <div className="flex items-center gap-3">
+                        {/* View Toggles */}
+                        <div className="flex items-center p-0.5 bg-zinc-100 dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700/50">
+                            <button
+                                onClick={() => setViewMode('preview')}
+                                className={cn(
+                                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all",
+                                    viewMode === 'preview'
+                                        ? "bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 shadow-sm"
+                                        : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                                )}
+                            >
+                                <Eye size={14} />
+                                Preview
+                            </button>
+                            <button
+                                onClick={() => setViewMode('code')}
+                                className={cn(
+                                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all",
+                                    viewMode === 'code'
+                                        ? "bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 shadow-sm"
+                                        : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                                )}
+                            >
+                                <Code size={14} />
+                                Code
+                            </button>
+                        </div>
 
-                        <div className="h-4 w-[1px] bg-gray-200 dark:bg-[#27272a] mx-1" />
+                        <div className="h-4 w-[1px] bg-zinc-200 dark:bg-zinc-800" />
 
                         <button
                             onClick={toggleTheme}
-                            className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 dark:border-[#27272a] text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-50 dark:hover:bg-[#27272a] transition-all"
+                            className="p-2 rounded-md text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all"
                         >
-                            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+                            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
                         </button>
-
-                        <TooltipButton icon={<Maximize size={16} />} />
                     </div>
                 </header>
 
-                {/* Preview Area */}
-                <div className="flex-1 p-4 md:p-6 overflow-hidden flex flex-col bg-gray-50/50 dark:bg-black">
-                    {/* The "Shell" container */}
-                    <div className="flex-1 bg-white dark:bg-black rounded-lg border border-gray-200 dark:border-[#27272a] overflow-hidden flex items-center justify-center relative shadow-sm dark:shadow-2xl transition-all duration-500">
+                {/* Content Area */}
+                <div className="flex-1 overflow-hidden relative group">
+                    {/* Background Grid Pattern */}
+                    <div className="absolute inset-0 pointer-events-none opacity-[0.4] dark:opacity-[0.2]"
+                        style={{
+                            backgroundImage: `radial-gradient(${theme === 'dark' ? '#52525b' : '#d4d4d8'} 1px, transparent 1px)`,
+                            backgroundSize: '24px 24px'
+                        }}
+                    />
 
-                        {/* Dot Grid Background */}
-                        <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.2]"
-                            style={{ backgroundImage: `radial-gradient(${theme === 'dark' ? '#333' : '#000'} 1px, transparent 1px)`, backgroundSize: '24px 24px' }}
-                        />
-
-                        {/* Optional pink glow */}
-                        <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-t from-pink-500/5 to-transparent opacity-0 dark:opacity-50 pointer-events-none" />
-
-                        <AnimatePresence mode='wait'>
+                    <AnimatePresence mode='wait'>
+                        {viewMode === 'preview' ? (
                             <motion.div
-                                key={selectedId}
-                                initial={{ opacity: 0, scale: 0.98, y: 10 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 1.02, y: -10 }}
-                                transition={{ duration: 0.4, ease: "easeOut" }}
-                                className="relative z-10 max-w-4xl max-h-[85%] w-full flex items-center justify-center p-8"
+                                key={`preview-${selectedItem?.id}`}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                                className="w-full h-full flex items-center justify-center p-6 sm:p-12"
                             >
-                                {selectedItem?.src.endsWith('.mp4') ? (
-                                    <video
-                                        src={selectedItem.src}
-                                        autoPlay loop muted playsInline
-                                        className="max-w-full max-h-[70vh] object-contain rounded-md shadow-2xl border border-gray-900/5 dark:border-white/5"
-                                    />
-                                ) : (
-                                    <img
-                                        src={selectedItem?.src}
-                                        alt={selectedItem?.title}
-                                        className="max-w-full max-h-[70vh] object-contain rounded-md shadow-2xl border border-gray-900/5 dark:border-white/5"
-                                    />
-                                )}
+                                <div className="absolute inset-0 flex items-center justify-center overflow-auto custom-scrollbar p-6">
+                                    {selectedItem?.component}
+                                </div>
                             </motion.div>
-                        </AnimatePresence>
-                    </div>
-
-                    {/* Footer Info */}
-                    <div className="mt-3 flex justify-between items-center px-1 text-[10px] font-mono text-gray-400 uppercase tracking-wider">
-                        <span>Preview Mode</span>
-                        <span>{selectedId + 1} / {componentsImages.length}</span>
-                    </div>
+                        ) : (
+                            <motion.div
+                                key={`code-${selectedItem?.id}`}
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                                className="w-full h-full overflow-hidden flex flex-col p-6"
+                            >
+                                <div className="max-w-4xl mx-auto w-full h-full rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden bg-white dark:bg-[#09090b]">
+                                    <CodeBlock code={selectedItem?.code || '// No code available'} />
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </main>
         </div>
     );
 };
-
-// Helper for icon buttons
-const TooltipButton = ({ icon }) => (
-    <button className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 dark:border-[#27272a] text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-50 dark:hover:bg-[#27272a] transition-all">
-        {icon}
-    </button>
-);
 
 export default ComponentsPage;

@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
-import { Github, Instagram, Twitter, Linkedin } from 'lucide-react';
+import { Github, Instagram, Twitter, Linkedin, Search } from 'lucide-react';
 import Logo from '../ui/Logo';
+import SearchModal from '../ui-components/SearchModal';
 
 const Navbar = () => {
     const { theme, toggleTheme } = useTheme();
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+    // Keyboard shortcut to toggle search
+    React.useEffect(() => {
+        const handleKeyDown = (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                setIsSearchOpen(prev => !prev);
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
 
     // Calligraphy Path Data for "TN"
     const pathVariants = {
@@ -49,7 +63,7 @@ const Navbar = () => {
             </div>
 
             {/* Right: Navigation Links & Icons */}
-            <div className="pointer-events-auto px-6 py-3 rounded-full transition-colors duration-300 flex items-center gap-8">
+            <div className="pointer-events-auto px-6 py-3 rounded-full transition-colors duration-300 flex items-center gap-2">
                 {/* Text Links */}
                 <div className="hidden md:flex items-center gap-6">
                     {navLinks.map((link) => (
@@ -68,6 +82,8 @@ const Navbar = () => {
 
                 {/* Icon Links */}
                 <div className="flex items-center gap-5">
+
+
                     {iconLinks.map((item, index) => (
                         <a
                             key={index}
@@ -91,8 +107,23 @@ const Navbar = () => {
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                         )}
                     </button>
+
+                    {/* Enhanced Search Trigger */}
+                    {/* Enhanced Search Trigger (Pill Shape with Shortcut) */}
+                    <button
+                        onClick={() => setIsSearchOpen(true)}
+                        className="flex items-center gap-2 pl-3 pr-2 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 group cursor-pointer"
+                        aria-label="Search"
+                    >
+                        <Search size={16} strokeWidth={2} className="text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-800 dark:group-hover:text-zinc-200" />
+                        <div className="flex items-center gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
+                            <span className="hidden sm:inline-flex items-center justify-center min-w-[20px] h-5 px-1 text-[10px] font-medium font-sans rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-300 dark:border-zinc-700">Ctrl</span>
+                            <span className="hidden sm:inline-flex items-center justify-center min-w-[20px] h-5 px-1 text-[10px] font-medium font-sans rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-300 dark:border-zinc-700">K</span>
+                        </div>
+                    </button>
                 </div>
             </div>
+            <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
         </motion.nav>
     );
 };

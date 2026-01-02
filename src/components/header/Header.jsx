@@ -4,7 +4,8 @@ import { MapPin, Building2, ExternalLink, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import VerifiedBadge from '../ui/VerifiedBadge';
 import Tooltip from '../ui/Tooltip';
-import chd_map from "../../assets/chd_map.png"
+// import chd_map from "../../assets/chd_map.png"
+import bannervid from "../../assets/bannervid.mp4"
 
 const Header = () => {
     // State for dynamic time

@@ -1,0 +1,248 @@
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+
+/**
+ * PeelingCheckbox
+ * * Pixel-perfect recreation with "Folded Corner" logic.
+ * * * * Logic:
+ * * - Hover: Top-Right corner folds diagonally inward (morphs shape).
+ * * - Click: The whole sticker peels off towards the Bottom-Left.
+ * * - Fix: Hover effect is now strictly scoped to the checkbox and text area.
+ */
+
+const PeelingCheckbox = ({
+    checked: controlledChecked,
+    defaultChecked = false,
+    onChange,
+    className = "",
+    style = {}
+}) => {
+    const [internalChecked, setInternalChecked] = useState(defaultChecked);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const isChecked = controlledChecked !== undefined ? controlledChecked : internalChecked;
+    const currentVariant = isChecked ? "checked" : (isHovered ? "hover" : "unchecked");
+
+    const toggle = () => {
+        const newValue = !isChecked;
+        if (controlledChecked === undefined) {
+            setInternalChecked(newValue);
+        }
+        onChange?.(newValue);
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            toggle();
+        }
+    };
+
+    // --- 1. SVG Path Topology ---
+
+    // UNCHECKED: Full Rounded Square
+    const pathFull = `
+    M 6 0 
+    L 16 0 
+    L 22 0 
+    C 25.31 0 28 2.69 28 6 
+    L 28 12 
+    L 28 22 A 6 6 0 0 1 22 28 
+    L 6 28 A 6 6 0 0 1 0 22 
+    L 0 6 A 6 6 0 0 1 6 0 Z
+  `;
+
+    // HOVER: Folded Corner
+    const pathFolded = `
+    M 6 0 
+    L 16 0 
+    L 16 0 
+    C 20 4 24 8 28 12 
+    L 28 12 
+    L 28 22 A 6 6 0 0 1 22 28 
+    L 6 28 A 6 6 0 0 1 0 22 
+    L 0 6 A 6 6 0 0 1 6 0 Z
+  `;
+
+    // --- 2. The Ear (The Folded Flap) ---
+    const pathEar = `
+    M 16 0
+    C 16 0 16 6 16 6 
+    A 6 6 0 0 0 22 12
+    L 28 12
+    Z
+  `;
+
+    // --- 3. Animation Variants ---
+
+    const wrapperVariants = {
+        unchecked: {
+            x: 0,
+            y: 0,
+            rotate: 0,
+            scale: 1,
+            opacity: 1,
+            transition: { type: "spring", stiffness: 300, damping: 30 }
+        },
+        hover: {
+            x: 0,
+            y: 0,
+            rotate: 0,
+            scale: 1,
+            opacity: 1,
+            transition: { duration: 0.2 }
+        },
+        checked: {
+            x: -30,        // Move Left
+            y: 30,         // Move Down (Bottom-Left Direction)
+            rotate: -120,  // Rotate inwards/down-left
+            opacity: 0,    // Fade out
+            scale: 0.9,
+            transition: {
+                duration: 0.45,
+                ease: [0.4, 0, 0.2, 1] // Aggressive "Ease-In-Out" for the rip
+            }
+        }
+    };
+
+    const sheetVariants = {
+        unchecked: {
+            d: pathFull,
+            fill: "var(--peel)",
+            filter: "brightness(1)",
+        },
+        hover: {
+            d: pathFolded,
+            fill: "var(--peel)",
+            filter: "brightness(0.98)", // Slight shadow from bending
+            transition: { duration: 0.25, ease: "easeInOut" }
+        },
+        checked: {
+            d: pathFolded,
+            filter: "brightness(0.95)",
+            transition: { duration: 0.1 }
+        }
+    };
+
+    const earVariants = {
+        unchecked: {
+            opacity: 0,
+            x: 2,
+            y: -2,
+            transition: { duration: 0.2 }
+        },
+        hover: {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            transition: { duration: 0.25, ease: "easeOut" }
+        },
+        checked: {
+            opacity: 1, // Stay visible as it flies away
+            transition: { duration: 0.1 }
+        }
+    };
+
+    const checkVariants = {
+        unchecked: { pathLength: 0, opacity: 0 },
+        hover: { pathLength: 0, opacity: 0 },
+        checked: {
+            pathLength: 1,
+            opacity: 1,
+            transition: { delay: 0.2, duration: 0.3, ease: "easeOut" }
+        }
+    };
+
+    const bgVariants = {
+        unchecked: { scale: 1 },
+        checked: {
+            scale: [1, 0.95, 1.05, 1], // Bounce impact
+            transition: { delay: 0.1, duration: 0.4 }
+        }
+    };
+
+    return (
+        // Outer Container: Handles Layout/Centering only. No events here.
+        <div className={`flex w-full h-full justify-center items-center ${className}`}>
+
+            {/* Interactive Container: Handles Hover/Click/Focus. Events moved here. */}
+            <div
+                className="inline-flex items-center gap-4 cursor-pointer select-none group outline-none p-2 rounded-xl"
+                onClick={toggle}
+                onKeyDown={handleKeyDown}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                role="checkbox"
+                aria-checked={isChecked}
+                tabIndex={0}
+                style={{
+                    '--fill': '#2BC858',   // Green
+                    '--peel': '#FFFFFF',   // White
+                    '--ear': '#E5E5E5',    // Light Gray (Back of sticker)
+                    perspective: '800px',  // For 3D rotation feel
+                    ...style
+                }}
+            >
+                <div className="relative flex-shrink-0" style={{ width: 28, height: 28 }}>
+
+                    {/* 1. Base Layer: Green Background + Checkmark */}
+                    <motion.svg
+                        width="28" height="28" viewBox="0 0 28 28" fill="none"
+                        className="absolute inset-0"
+                    >
+                        <motion.rect
+                            width="28" height="28" rx="6"
+                            fill="var(--fill)"
+                            variants={bgVariants}
+                            initial="unchecked"
+                            animate={currentVariant}
+                        />
+                        <motion.path
+                            d="M 8 14.5 L 12 18.5 L 20 9.5"
+                            stroke="white"
+                            strokeWidth="3.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            variants={checkVariants}
+                            initial="unchecked"
+                            animate={currentVariant}
+                        />
+                    </motion.svg>
+
+                    {/* 2. Top Layer: The Peeling Sticker */}
+                    <motion.div
+                        className="absolute inset-0 drop-shadow-sm"
+                        variants={wrapperVariants}
+                        initial="unchecked"
+                        animate={currentVariant}
+                        style={{
+                            transformOrigin: "bottom left",
+                            transformStyle: "preserve-3d"
+                        }}
+                    >
+                        <motion.svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                            {/* The Main Sheet (White) */}
+                            <motion.path
+                                variants={sheetVariants}
+                                strokeWidth="0.5"
+                            />
+                            {/* The Folded Ear (Gray Back) */}
+                            <motion.path
+                                d={pathEar}
+                                fill="var(--ear)"
+                                variants={earVariants}
+                                style={{ filter: "drop-shadow(-1px 1px 1px rgba(0,0,0,0.1))" }}
+                            />
+                        </motion.svg>
+                    </motion.div>
+                </div>
+
+                <span className="text-slate-700 dark:text-slate-200 font-medium text-lg font-sans tracking-tight transition-colors group-hover:text-slate-900 dark:group-hover:text-white">
+                    Check to see the peeling effect
+                </span>
+            </div>
+        </div>
+    );
+};
+
+export default PeelingCheckbox;
