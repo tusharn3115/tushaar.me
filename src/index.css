@@ -8,6 +8,13 @@ body {
   /* gray-600 */
 }
 
+/* Also ensure links and buttons don't bring it back */
+a,
+button,
+[role="button"] {
+  /* cursor: none !important; */
+}
+
 :root.dark body {
   background-color: #09090b;
   color: #9ca3af;

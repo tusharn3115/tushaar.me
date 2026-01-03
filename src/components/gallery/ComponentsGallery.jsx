@@ -32,7 +32,7 @@ const ComponentsGallery = () => {
                 >
                     <div className="space-y-1">
                         <span className="text-[9px] font-mono tracking-[0.3em] uppercase text-gray-400 block">
-                            Archive v2.0
+                            Archive v1.0
                         </span>
                         <h2 className="text-3xl font-light tracking-tight text-gray-900 dark:text-white">
                             Components <span className="font-serif italic text-gray-500 dark:text-gray-400">I have cooked</span>

@@ -35,7 +35,7 @@ const PortalTooltip = ({ activity, position }) => {
 };
 
 const GitHubSection = () => {
-    const username = 'tusharn3115'; // Your username
+    const username = 'tusharn3115';
 
     const [contributionData, setContributionData] = useState([]);
     const [totalContributions, setTotalContributions] = useState(0);
@@ -83,20 +83,65 @@ const GitHubSection = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const res = await fetch(`https://github-contributions-api.deno.dev/${username}.json`);
-                if (!res.ok) throw new Error("Failed to fetch");
-                const data = await res.json();
+            const token = import.meta.env.VITE_GITHUB_TOKEN;
+            if (!token) {
+                console.warn("GitHub Token not found in .env");
+                setError(true);
+                setLoading(false);
+                return;
+            }
 
-                // Transform data for ContributionGraph
-                const flatData = data.contributions.flat().map(day => ({
-                    date: day.date,
-                    count: day.contributionCount,
-                    level: getLevel(day.contributionCount)
-                }));
+            const query = `
+                query($userName:String!) {
+                  user(login: $userName){
+                    contributionsCollection {
+                      contributionCalendar {
+                        totalContributions
+                        weeks {
+                          contributionDays {
+                            contributionCount
+                            date
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+            `;
+
+            try {
+                const res = await fetch('https://api.github.com/graphql', {
+                    method: 'POST',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query,
+                        variables: { userName: username },
+                    }),
+                });
+
+                if (!res.ok) throw new Error("Failed to fetch from GitHub API");
+                const { data } = await res.json();
+
+                if (!data || !data.user) {
+                    throw new Error("No data returned");
+                }
+
+                const calendar = data.user.contributionsCollection.contributionCalendar;
+
+                // Transform GraphQL data to match our existing structure
+                const flatData = calendar.weeks.flatMap(week =>
+                    week.contributionDays.map(day => ({
+                        date: day.date,
+                        count: day.contributionCount,
+                        level: getLevel(day.contributionCount)
+                    }))
+                );
 
                 setContributionData(flatData);
-                setTotalContributions(data.totalContributions);
+                setTotalContributions(calendar.totalContributions);
 
             } catch (err) {
                 console.error("GitHub Fetch Error:", err);

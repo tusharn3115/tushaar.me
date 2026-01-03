@@ -11,6 +11,7 @@ import Experience from '../experience/Experience';
 import Contact from '../contact/Contact';
 import Footer from '../footer/Footer';
 import SectionHeading from '../ui/SectionHeading';
+import TechStack from './TechStack';
 
 // --- Home Component ---
 const Home = () => {
@@ -52,7 +53,12 @@ const Home = () => {
                 <GitHubSection />
             </motion.div>
 
-            {/* 3. Experience Section */}
+            {/* 3. Tech Stack Slider */}
+            <motion.div variants={itemVariants}>
+                <TechStack />
+            </motion.div>
+
+            {/* 4. Experience Section */}
             <motion.div variants={itemVariants}>
                 <Experience />
             </motion.div>

@@ -11,6 +11,7 @@ import BlogPost from './components/blog/BlogPost';
 import ComponentsPage from './components/component-page/ComponentsPage';
 
 import { AnimatePresence, motion } from 'framer-motion';
+import CustomCursor from './components/ui/CustomCursor';
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -29,6 +30,7 @@ const AppContent = () => {
   return (
     <>
       <ScrollToTop />
+      {/* <CustomCursor /> */}
 
       {/* Conditionally render Global Utils */}
       {!isComponentPage && (
