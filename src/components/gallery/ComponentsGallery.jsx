@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -13,6 +13,39 @@ const items = componentsImages.slice(0, 6).map((item, i) => ({
     index: String(i + 1).padStart(2, '0')
 }));
 
+// Video Component that behaves like a GIF on hover
+const HoverVideo = ({ src, className }) => {
+    const videoRef = useRef(null);
+
+    const handleMouseEnter = () => {
+        if (videoRef.current) {
+            videoRef.current.currentTime = 0;
+            videoRef.current.play().catch(() => { });
+        }
+    };
+
+    const handleMouseLeave = () => {
+        if (videoRef.current) {
+            videoRef.current.pause();
+            videoRef.current.currentTime = 0;
+        }
+    };
+
+    return (
+        <video
+            ref={videoRef}
+            src={src}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className={className}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        />
+    );
+};
+
 const ComponentsGallery = () => {
     const [activeTitle, setActiveTitle] = useState(null);
 
@@ -21,7 +54,6 @@ const ComponentsGallery = () => {
             <CursorTooltip title={activeTitle} />
             <div className="container mx-auto px-6">
 
-                {/* Refined Header */}
                 {/* Refined Header */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
@@ -57,23 +89,13 @@ const ComponentsGallery = () => {
                             className={`relative group md:col-span-12 ${i % 2 !== 0 ? 'md:mt-32 lg:col-start-8 lg:col-span-5' : 'lg:col-span-7'
                                 }`}
                         >
-                            {/* Metadata Layer - Tighter spacing */}
-                            {/* <div className="flex items-center gap-3 mb-3">
-                                <span className="text-[10px] font-mono text-gray-700 dark:text-gray-300 opacity-70">
-                                    {item.index}
-                                </span>
-                                <h3 className="text-base font-normal tracking-tight text-gray-900 dark:text-gray-200 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">
-                                    {item.title}
-                                </h3>
-                            </div> */}
-
                             {/* Image Container - Clean & Sharp */}
                             <div className="relative aspect-[16/10] overflow-hidden bg-gray-50 dark:bg-white/5 border border-black/5 dark:border-white/5">
                                 {item.src.endsWith('.mp4') ? (
-                                    <video
+                                    <HoverVideo
                                         src={item.src}
-                                        autoPlay loop muted playsInline
-                                        className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 ease-in-out"
+                                        // Removed excessive transitions/filters for performance
+                                        className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-opacity duration-300"
                                     />
                                 ) : (
                                     <img
@@ -84,18 +106,10 @@ const ComponentsGallery = () => {
                                 )}
 
                                 {/* Minimal Corner Icon */}
-                                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300 pointer-events-none">
                                     <ArrowUpRight size={16} className="text-white mix-blend-difference" />
                                 </div>
                             </div>
-
-                            {/* Minimal Footer */}
-                            {/* <div className="mt-3 flex justify-between items-center">
-                                <span className="text-[9px] font-mono uppercase tracking-widest text-gray-400">
-                                    {item.tag}
-                                </span>
-                                <div className="h-[1px] w-0 group-hover:w-8 bg-gray-900 dark:bg-white transition-all duration-500" />
-                            </div> */}
                         </motion.div>
                     ))}
                 </div>

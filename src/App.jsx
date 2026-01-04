@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 // --- Components ---
 import Navbar from './components/navbar/Navbar';
 import Plum from './components/background/Plum';
+import GridPattern from './components/background/GridPattern';
 import Home from './components/home/Home';
 import BlogList from './components/blog/BlogList';
 import BlogPost from './components/blog/BlogPost';
@@ -36,6 +37,7 @@ const AppContent = () => {
       {!isComponentPage && (
         <>
           <Navbar />
+          <GridPattern />
           <Plum />
         </>
       )}

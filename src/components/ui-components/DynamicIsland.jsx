@@ -12,6 +12,8 @@ import {
     X, // This is the close icon (cross)
 } from "lucide-react";
 
+import { socialLinks } from '../../data/portfolioData';
+
 // --- Assets ---
 const AVATAR_URL =
     "https://pbs.twimg.com/profile_images/2004813445838127104/8Go0jvZt_400x400.jpg";
@@ -199,11 +201,11 @@ export default function DynamicIsland() {
                                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                                     transition={{ delay: 0.2 }}
                                 >
-                                    <IconLink icon={<Globe size={20} />} label="Site" />
-                                    <IconLink icon={<Github size={20} />} label="Git" />
-                                    <IconLink icon={<XLogo size={18} />} label="X" />
-                                    <IconLink icon={<Linkedin size={20} />} label="In" />
-                                    <IconLink icon={<Mail size={20} />} label="Mail" />
+                                    <IconLink href={socialLinks.site} icon={<Globe size={20} />} label="Site" />
+                                    <IconLink href={socialLinks.github} icon={<Github size={20} />} label="Git" />
+                                    <IconLink href={socialLinks.twitter} icon={<XLogo size={18} />} label="X" />
+                                    <IconLink href={socialLinks.linkedin} icon={<Linkedin size={20} />} label="In" />
+                                    <IconLink href={socialLinks.email} icon={<Mail size={20} />} label="Mail" />
                                 </motion.div>
                             </motion.div>
                         )}
@@ -215,9 +217,13 @@ export default function DynamicIsland() {
 }
 
 // Icon Button with Tooltip
-function IconLink({ icon, label }) {
+function IconLink({ icon, label, href }) {
     return (
-        <motion.div
+        <motion.a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()} // Prevent closing the card
             className="relative flex flex-col items-center justify-center group cursor-pointer"
             whileHover="hover"
             initial="rest"
@@ -247,6 +253,6 @@ function IconLink({ icon, label }) {
             >
                 {icon}
             </motion.div>
-        </motion.div>
+        </motion.a>
     );
 }

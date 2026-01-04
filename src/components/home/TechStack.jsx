@@ -137,7 +137,10 @@ const TechStack = () => {
                                 <img
                                     src={tech.icon}
                                     alt={tech.name}
-                                    className="h-10 w-10 md:h-12 md:w-12 object-contain min-w-[40px] min-h-[40px] transition-all duration-300 transform opacity-90 hover:opacity-100"
+                                    className={cn(
+                                        "h-10 w-10 md:h-12 md:w-12 object-contain min-w-[40px] min-h-[40px] transition-all duration-300 transform opacity-90 hover:opacity-100",
+                                        tech.invertDark && "dark:invert"
+                                    )}
                                 />
                             </a>
                         </Tooltip>
