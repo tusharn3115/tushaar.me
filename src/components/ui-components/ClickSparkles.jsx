@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 
 // ==============================================
 // 👇 SPARKLE PARTICLE COMPONENT
 // ==============================================
+// ==============================================
+// 👇 SPARKLE PARTICLE COMPONENT
+// ==============================================
 export const SparkleParticles = () => {
+    // Vibrant colors for sparkles
+    const colors = [
+        "#00C9A7", // Cyan
+        "#845EC2", // Purple
+        "#FF9671", // Orange
+        "#FFC75F", // Gold
+        "#F9F871", // Yellow
+        "#ff5e78"  // Pink
+    ];
+
     // Generate a fixed number of particles
     const particles = Array.from({ length: 45 }).map((_, i) => {
         // Angle: Cone pointing upwards (225° to 315°)
@@ -16,7 +29,7 @@ export const SparkleParticles = () => {
             vx: Math.cos(angle) * velocity,
             vy: Math.sin(angle) * velocity, // Negative = Up
             scale: Math.random() * 0.5 + 0.3,
-            color: Math.random() > 0.6 ? 'var(--sparkle-pri)' : 'var(--sparkle-sec)',
+            color: colors[Math.floor(Math.random() * colors.length)],
             delay: Math.random() * 0.1,
             spin: Math.random() * 180 - 90,
         };
@@ -72,11 +85,7 @@ export default function ClickSparkles() {
     const [key, setKey] = useState(0);
 
     return (
-        <div className="w-full h-full flex flex-col items-center justify-center gap-8 font-sans p-4"
-            style={{
-                '--sparkle-pri': 'currentColor',
-                '--sparkle-sec': 'currentColor',
-            }}>
+        <div className="w-full h-full flex flex-col items-center justify-center gap-8 font-sans p-4">
 
             <div className="relative group">
                 <div className="text-black dark:text-white">
@@ -87,15 +96,15 @@ export default function ClickSparkles() {
 
                     <button
                         onClick={() => setKey(prev => prev + 1)}
-                        className="relative z-10 px-8 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 text-gray-900 dark:text-zinc-200 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all active:scale-95 font-medium shadow-sm"
+                        className="relative z-10 px-8 py-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-50 rounded-lg hover:border-zinc-300 dark:hover:border-zinc-700 transition-all active:scale-95 font-medium shadow-sm hover:shadow-md"
                     >
-                        Click for Sparkles
+                        Click for Magic
                     </button>
                 </div>
             </div>
 
-            <p className="text-gray-500 dark:text-zinc-500 text-sm text-center max-w-xs">
-                Sparkles adapt to your theme
+            <p className="text-zinc-400 text-xs font-medium tracking-wide uppercase opacity-70">
+                Click the button to see colorful sparkles
             </p>
         </div>
     );

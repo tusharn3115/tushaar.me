@@ -6,6 +6,10 @@ import peeling_checkbox from "../assets/vids/Peeling_Checkbox.mp4"
 import qrcode from "../assets/vids/qrcode.mp4"
 import recorder from "../assets/vids/recorder.mp4"
 import btn from "../assets/vids/submitbtn_v2.1.mp4"
+import insightix from "../assets/Insightix.png"
+import intellikit from "../assets/IntelliKit.png"
+import greyAllegiance from "../assets/greyAllegiance.png"
+import motion from "../assets/motion.png"
 
 export const roles = [
     {
@@ -14,7 +18,7 @@ export const roles = [
         date: "Aug 2025 — Present",
         logo: "F",
         description:
-            "Building and optimizing responsive web interfaces, improving performance, and collaborating closely with designers to ship high-quality user experiences.",
+            "Spearheading the frontend architecture of core travel platforms, optimizing render performance by 40%, and collaborating with design teams to ship pixel-perfect user interfaces.",
     },
     {
         company: "Freelance",
@@ -22,33 +26,47 @@ export const roles = [
         date: "Aug 2024 — July 2025",
         logo: "FR",
         description:
-            "Delivered end-to-end web solutions for clients, handling UI development, backend integrations, and deployment while ensuring clean, scalable architecture.",
+            "Architected and shipped scalable full-stack solutions for diverse clients, managing the entire lifecycle from system design to deployment and CI/CD integration.",
     },
 ];
 
-
 export const projects = [
     {
-        title: "Chronicle",
-        role: "Engineering Lead",
-        description: "A minimal journaling app built with React and Tailwind. Features rich text editing, local-first architecture, and seamless Supabase sync.",
-        stack: "React • Tailwind • Supabase",
-        icon: "C",
+        id: "intelli-kit",
+        title: "IntelliKit",
+        role: "Full Stack",
+        description: "Boost productivity with AI. Content, visuals, and automation in one kit.",
+        longDescription: "IntelliKit is an all-in-one AI-powered toolkit designed to boost your productivity. Effortlessly generate high-quality written content, create stunning visuals, and automate repetitive tasks—all in a single, streamlined platform.",
+        stack: ["React", "Tailwind CSS", "NeonDB", "Gemini API"],
+        gradient: "from-blue-500 to-indigo-500",
+        img: intellikit,
+        live: "https://intelli-kit.vercel.app/",
+        github: "https://github.com/tusharn3115/IntelliKit"
     },
     {
-        title: "Apex UI",
-        role: "Creator",
-        description: "An accessible, unstyled component library for rapid prototyping. Used by 500+ developers for internal tools and dashboards.",
-        stack: "TypeScript • Radix • Stitches",
-        icon: "A",
+        id: "insightix",
+        title: "Insightix",
+        role: "Frontend",
+        description: "Sleek, high-performance landing page for modern SaaS startups.",
+        longDescription: "Insightix is a sleek, conversion-focused SaaS landing page designed to show case your product with clarity and confidence. Built for modern startups, it combines clean design with responsive layouts to highlight features and value.",
+        stack: ["React", "Tailwind CSS", "Motion React", "Shadcn UI"],
+        gradient: "from-slate-500 to-zinc-500",
+        img: insightix,
+        live: "https://insightix-delta.vercel.app/",
+        github: "https://github.com/tusharn3115/Insightix"
     },
     {
-        title: "Velvet",
-        role: "Frontend Architect",
-        description: "High-performance e-commerce dashboard with real-time analytics, inventory management, and Stripe integration.",
-        stack: "Next.js • GraphQL • Stripe",
-        icon: "V",
-    }
+        id: "grey-allegiance",
+        title: "Grey Allegiance",
+        role: "Full Stack",
+        description: "Discreet digital presence for elite personal security services.",
+        longDescription: "Grey Allegiance Security provides discreet and highly professional personal protection services. This platform ensures clients can access tailored security solutions with privacy and comfort, whether for corporate events or private travel.",
+        stack: ["React", "Node.js", "MongoDB", "Express"],
+        gradient: "from-zinc-600 to-stone-600",
+        img: greyAllegiance,
+        live: "https://www.greyallegiance.com/",
+        github: null
+    },
 ];
 
 export const componentsImages = [
@@ -83,13 +101,17 @@ export const techStack = [
     { name: "Redis", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg", url: "https://redis.io" },
     { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg", url: "https://www.figma.com" },
     { name: "Photoshop", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-original.svg", url: "https://www.adobe.com/products/photoshop.html" },
-    { name: "OpenAI", icon: "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg", url: "https://openai.com", invertDark: true }
+    { name: "OpenAI", icon: "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg", url: "https://openai.com", invertDark: true },
+    { name: "NeonDB", icon: "https://neon.com/_next/static/svgs/9ec344e46390fe939d46984bf9cecaa7.svg", darkIcon: "https://neon.com/_next/static/svgs/6da928883916f39a4848774319dcaf81.svg", url: "https://neon.tech" },
+    { name: "Gemini API", icon: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Google_Gemini_logo.svg", url: "https://deepmind.google/technologies/gemini/" },
+    { name: "Motion React", icon: motion, url: "https://motion.dev/" },
+    { name: "Express", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg", url: "https://expressjs.com", invertDark: true }
 ];
 
 export const socialLinks = {
-    site: "https://tushar.dev",
+    site: "https://tushaar.me",
     github: "https://github.com/tusharn3115",
-    twitter: "https://twitter.com/tusharn3115",
-    linkedin: "https://linkedin.com/in/tusharn3115",
-    email: "mailto:tushar@example.com"
+    twitter: "https://twitter.com/tushaar_dev",
+    linkedin: "https://www.linkedin.com/in/tushar-negi-786571317",
+    email: "mailto:negitushar923@gmail.com"
 };

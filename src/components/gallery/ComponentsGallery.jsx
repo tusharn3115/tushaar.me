@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { componentsImages } from '../../data/portfolioData';
@@ -56,18 +56,18 @@ const ComponentsGallery = () => {
 
                 {/* Refined Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: -20 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                     className="mb-16 border-b border-black/5 dark:border-white/5 pb-8 flex justify-between items-end"
                 >
                     <div className="space-y-1">
                         <span className="text-[9px] font-mono tracking-[0.3em] uppercase text-gray-400 block">
                             Archive v1.0
                         </span>
-                        <h2 className="text-3xl font-light tracking-tight text-gray-900 dark:text-white">
-                            Components <span className="font-serif italic text-gray-500 dark:text-gray-400">I have cooked</span>
+                        <h2 className="text-4xl md:text-5xl font-instrument italic font-normal text-gray-900 dark:text-white tracking-tight">
+                            Components <span className="font-inter not-italic font-light text-gray-500 dark:text-gray-400 text-3xl md:text-4xl">I have cooked</span>
                         </h2>
                     </div>
                     <span className="text-[10px] font-mono text-gray-400 hidden md:block">
@@ -90,7 +90,7 @@ const ComponentsGallery = () => {
                                 }`}
                         >
                             {/* Image Container - Clean & Sharp */}
-                            <div className="relative aspect-[16/10] overflow-hidden bg-gray-50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+                            <div className="relative aspect-[16/10] overflow-hidden bg-gray-50 dark:bg-white/5 border border-black/5 dark:border-white/5 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] transition-shadow duration-500 group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)]">
                                 {item.src.endsWith('.mp4') ? (
                                     <HoverVideo
                                         src={item.src}

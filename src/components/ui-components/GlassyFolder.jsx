@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from "motion/react";
 
 // --- Mini Skeleton Components (Cleaner & Sharper) ---
 const FileSkeleton1 = () => (
@@ -64,15 +64,15 @@ const GlassyFolder = () => {
             transition: { type: "spring", stiffness: 300, damping: 25 }
         },
         peek: (index) => ({
-            y: -60 - (index * 8),
+            y: -40 - (index * 5),
             rotate: index === 0 ? -4 : index === 2 ? 4 : 0,
             scale: 1.02,
             z: 0,
             transition: { type: "spring", stiffness: 300, damping: 25 }
         }),
         open: (index) => ({
-            y: -150,
-            x: index === 0 ? -110 : index === 2 ? 110 : 0,
+            y: -85,
+            x: index === 0 ? -70 : index === 2 ? 70 : 0,
             rotate: index === 0 ? -15 : index === 2 ? 15 : 0,
             scale: 1.1,
             z: 0,
@@ -109,12 +109,12 @@ const GlassyFolder = () => {
     };
 
     return (
-        <div className="w-full h-full flex items-center justify-center p-8 select-none font-sans perspective-[1200px]">
+        <div className="w-full h-full flex items-center justify-center p-4 select-none font-sans perspective-[1200px]">
 
             {/* 3D Scene Container */}
-            {/* Increased perspective to flatten the view slightly and reduce edge distortion */}
+            {/* Reduced width from w-60 to w-48, height from h-48 to h-40 */}
             <motion.div
-                className="relative w-80 h-60 cursor-pointer"
+                className="relative w-48 h-40 cursor-pointer"
                 style={{ perspective: 1200, transformStyle: "preserve-3d" }}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
@@ -129,9 +129,9 @@ const GlassyFolder = () => {
                     className="absolute inset-0 pointer-events-none"
                     style={{ transform: "translateZ(-30px)", transformStyle: "preserve-3d" }}
                 >
-                    {/* Tab */}
+                    {/* Tab - Reduced width from w-28 to w-20 */}
                     <div
-                        className="absolute -top-4 left-0 w-36 h-10 bg-[#2b2b2b] rounded-t-xl shadow-sm transition-colors duration-300"
+                        className="absolute -top-4 left-0 w-20 h-10 bg-[#2b2b2b] rounded-t-xl shadow-sm transition-colors duration-300"
                         style={{
                             boxShadow: "inset 0 1px 0 rgba(255,255,255,0.1), inset 1px 0 0 rgba(255,255,255,0.05), inset -1px 0 0 rgba(255,255,255,0.05)"
                         }}
@@ -152,14 +152,14 @@ const GlassyFolder = () => {
                 {/* --- The Files (Layer 0) --- */}
                 {/* They sit at Z=0, safely sandwiched between back (-30) and front (+30) */}
                 <div
-                    className="absolute inset-x-0 bottom-5 h-32 z-10 flex items-end justify-center pointer-events-none"
+                    className="absolute inset-x-0 bottom-5 h-24 z-10 flex items-end justify-center pointer-events-none"
                     style={{ transformStyle: "preserve-3d" }}
                 >
-                    {/* File 1 (Left) */}
+                    {/* File 1 (Left) - Reduced w-36 to w-28, h-32 to h-24 */}
                     <motion.div
                         custom={0}
                         variants={fileVariants}
-                        className="absolute w-48 h-44 bg-[#2a2a2a] rounded-xl shadow-lg origin-bottom flex overflow-hidden border border-transparent"
+                        className="absolute w-28 h-24 bg-[#2a2a2a] rounded-xl shadow-lg origin-bottom flex overflow-hidden border border-transparent"
                         style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05)" }} // Replaced border
                     >
                         <FileSkeleton1 />
@@ -169,7 +169,7 @@ const GlassyFolder = () => {
                     <motion.div
                         custom={1}
                         variants={fileVariants}
-                        className="absolute w-48 h-44 bg-[#262626] rounded-xl shadow-lg origin-bottom flex overflow-hidden border border-transparent"
+                        className="absolute w-28 h-24 bg-[#262626] rounded-xl shadow-lg origin-bottom flex overflow-hidden border border-transparent"
                         style={{ zIndex: 10, boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05)" }} // Replaced border
                     >
                         <FileSkeleton2 />
@@ -179,7 +179,7 @@ const GlassyFolder = () => {
                     <motion.div
                         custom={2}
                         variants={fileVariants}
-                        className="absolute w-48 h-44 bg-[#303030] rounded-xl shadow-lg origin-bottom flex overflow-hidden border border-transparent"
+                        className="absolute w-28 h-24 bg-[#303030] rounded-xl shadow-lg origin-bottom flex overflow-hidden border border-transparent"
                         style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05)" }} // Replaced border
                     >
                         <FileSkeleton3 />
@@ -224,9 +224,9 @@ const GlassyFolder = () => {
             </motion.div>
 
             {/* UI Hint */}
-            <div className="fixed bottom-12 text-gray-500 font-medium text-xs tracking-widest uppercase opacity-60">
+            {/* <div className="fixed bottom-12 text-gray-500 font-medium text-xs tracking-widest uppercase opacity-60">
                 Hover to Peek • Click to Interact
-            </div>
+            </div> */}
 
         </div>
     );

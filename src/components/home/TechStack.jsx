@@ -107,14 +107,25 @@ const TechStack = () => {
     return (
         <section className="py-10 w-full overflow-hidden">
             <div className="container mx-auto px-6 mb-12">
-                <div className="flex flex-col items-center justify-center gap-4 text-center">
-                    <div className="px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800/50 text-xs font-medium text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 backdrop-blur-sm">
-                        The Stack
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                    className="border-b border-black/5 dark:border-white/5 pb-8 flex flex-col justify-between items-start"
+                >
+                    <div className="space-y-1">
+                        <span className="text-[9px] font-mono tracking-[0.3em] uppercase text-gray-400 block">
+                            Tools & Arms
+                        </span>
+                        <h2 className="text-4xl md:text-5xl font-instrument italic font-normal text-gray-900 dark:text-white tracking-tight">
+                            Stack <span className="font-inter not-italic font-light text-gray-500 dark:text-gray-400 text-3xl md:text-4xl">I use</span>
+                        </h2>
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-instrument italic font-normal text-zinc-800 dark:text-zinc-200">
-                        Technologies & Tools
-                    </h2>
-                </div>
+                    <p className="text-[13px] font-mono text-gray-400 mt-6 max-w-[400px] leading-relaxed">
+                        Technologies I work with to build products that solve real problems
+                    </p>
+                </motion.div>
             </div>
 
             <div
@@ -139,9 +150,16 @@ const TechStack = () => {
                                     alt={tech.name}
                                     className={cn(
                                         "h-10 w-10 md:h-12 md:w-12 object-contain min-w-[40px] min-h-[40px] transition-all duration-300 transform opacity-90 hover:opacity-100",
-                                        tech.invertDark && "dark:invert"
+                                        tech.darkIcon ? "dark:hidden" : (tech.invertDark && "dark:invert")
                                     )}
                                 />
+                                {tech.darkIcon && (
+                                    <img
+                                        src={tech.darkIcon}
+                                        alt={tech.name}
+                                        className="h-10 w-10 md:h-12 md:w-12 object-contain min-w-[40px] min-h-[40px] transition-all duration-300 transform opacity-90 hover:opacity-100 hidden dark:block"
+                                    />
+                                )}
                             </a>
                         </Tooltip>
                     ))}

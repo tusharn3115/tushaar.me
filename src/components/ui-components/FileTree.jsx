@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import {
-    motion,
-    AnimatePresence,
-} from "framer-motion";
+import { motion, AnimatePresence } from 'motion/react';
 import {
     Folder,
     FolderOpen,
@@ -119,7 +116,7 @@ const FileRow = ({
                 "group flex items-center h-[34px] w-full cursor-pointer select-none transition-colors duration-200",
                 isSelected ? "bg-gray-200 dark:bg-[#1f1f1f]" : "hover:bg-gray-100 dark:hover:bg-[#151515]"
             )}
-            style={{ paddingLeft: `${depth * 1.2 + 0.5}rem` }}
+            style={{ paddingLeft: `${depth * 1.2 + 0.5} rem` }}
         >
             {/* CARET CONTAINER */}
             <div className="flex items-center justify-center w-5 h-5 shrink-0 mr-1 text-neutral-500">

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { ArrowLeft } from 'lucide-react';
 import { blogPosts } from '../../data/blogData';
 
@@ -58,7 +58,7 @@ const BlogPost = () => {
             </motion.div>
 
             <motion.header variants={itemVariants} className="mb-12">
-                <h1 className="text-3xl md:text-5xl font-light tracking-tight text-gray-900 dark:text-white mb-6 leading-tight">
+                <h1 className="text-4xl md:text-6xl font-instrument italic font-normal tracking-tight text-gray-900 dark:text-white mb-6 leading-tight">
                     {post.title}
                 </h1>
                 <div className="flex gap-4 text-sm font-mono text-gray-400 border-l-2 border-amber-500/50 pl-4">

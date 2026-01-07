@@ -11,7 +11,7 @@ import BlogList from './components/blog/BlogList';
 import BlogPost from './components/blog/BlogPost';
 import ComponentsPage from './components/component-page/ComponentsPage';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import CustomCursor from './components/ui/CustomCursor';
 
 // Scroll to top on route change
@@ -32,12 +32,13 @@ const AppContent = () => {
     <>
       <ScrollToTop />
       {/* <CustomCursor /> */}
+      <div className="noise-bg-fixed" />
 
       {/* Conditionally render Global Utils */}
       {!isComponentPage && (
         <>
           <Navbar />
-          <GridPattern />
+          {/* <GridPattern /> */}
           <Plum />
         </>
       )}

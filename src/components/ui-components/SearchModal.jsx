@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "motion/react";
 import { Search, X, ArrowRight, Github, Instagram, Twitter, Linkedin, Home, FileText, Layers, Briefcase, User, Code, Command, CornerDownLeft, ArrowUp, ArrowDown } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -212,10 +212,10 @@ const SearchModal = ({ isOpen, onClose }) => {
                                                                 className={`flex items-center justify-between px-3 py-3 rounded-lg cursor-pointer transition-colors ${isActive
                                                                     ? 'bg-zinc-100 dark:bg-white/10 text-zinc-900 dark:text-zinc-100'
                                                                     : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-white/5'
-                                                                    }`}
+                                                                    } `}
                                                             >
                                                                 <div className="flex items-center gap-3">
-                                                                    <div className={`w-5 h-5 flex items-center justify-center ${isActive ? 'text-zinc-900 dark:text-zinc-100' : 'text-zinc-400'}`}>
+                                                                    <div className={`w-5 h-5 flex items-center justify-center ${isActive ? 'text-zinc-900 dark:text-zinc-100' : 'text-zinc-400'} `}>
                                                                         <item.icon size={18} strokeWidth={2} />
                                                                     </div>
                                                                     <div className="flex flex-col">

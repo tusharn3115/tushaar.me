@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { Mic } from "lucide-react";
 
 export default function VoiceConversation() {
@@ -25,7 +25,7 @@ export default function VoiceConversation() {
     };
 
     return (
-        <div className="flex w-full h-full items-center justify-center overflow-hidden font-sans relative">
+        <div className="flex flex-col w-full h-full items-center justify-center overflow-hidden font-sans relative">
             <svg className="absolute hidden">
                 <defs>
                     <filter id="goo-professional">
@@ -141,8 +141,8 @@ export default function VoiceConversation() {
                 </div>
             </div>
 
-            <div className="absolute bottom-12 text-gray-400 text-sm font-medium tracking-wide opacity-60">
-                TAP TO INTERACT
+            <div className="mt-12 text-gray-400 text-xs font-medium tracking-widest uppercase opacity-60">
+                Tap to interact
             </div>
         </div>
     );

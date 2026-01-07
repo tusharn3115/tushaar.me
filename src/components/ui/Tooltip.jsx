@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 
-const Tooltip = ({ text, content, underline = true }) => {
+const Tooltip = ({ text, content, underline = true, children }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [position, setPosition] = useState('top'); // 'top' or 'bottom'
     const triggerRef = useRef(null);
@@ -21,20 +21,22 @@ const Tooltip = ({ text, content, underline = true }) => {
     };
 
     return (
-        <span
+        <div
             ref={triggerRef}
-            className="relative inline-block group z-50"
+            className="relative inline-flex group"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={() => setIsVisible(false)}
         >
-            <span
-                className={`cursor-help font-medium transition-colors duration-300 ${underline
-                    ? 'border-b border-gray-300 dark:border-gray-700 border-dashed hover:border-gray-900 dark:hover:border-gray-100 text-gray-900 dark:text-gray-100'
-                    : 'text-gray-900 dark:text-gray-100'
-                    }`}
-            >
-                {text}
-            </span>
+            {children ? children : (
+                <span
+                    className={`cursor-help font-medium transition-colors duration-300 ${underline
+                        ? 'border-b border-gray-300 dark:border-gray-700 border-dashed hover:border-gray-900 dark:hover:border-gray-100 text-gray-900 dark:text-gray-100'
+                        : 'text-gray-900 dark:text-gray-100'
+                        }`}
+                >
+                    {text}
+                </span>
+            )}
             <AnimatePresence>
                 {isVisible && (
                     <motion.div
@@ -42,15 +44,15 @@ const Tooltip = ({ text, content, underline = true }) => {
                         animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
                         exit={{ opacity: 0, scale: 0.95, y: position === 'top' ? 8 : -8, filter: "blur(4px)" }}
                         transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }} // Premium "Apple-like" eased curve
-                        className={`absolute left-1/2 -translate-x-1/2 w-max max-w-[320px] z-[100] ${position === 'top' ? 'bottom-full mb-3' : 'top-full mt-3'}`}
+                        className={`absolute left-1/2 -translate-x-1/2 w-max max-w-[320px] z-100 ${position === 'top' ? 'bottom-full mb-3' : 'top-full mt-3'}`}
                     >
                         {/* 
                            PREMIUM INVERTED DESIGN:
                            - Light Mode: Dark (Zinc 900) for contrast against white page.
                            - Dark Mode: Light (White) for contrast against dark page.
                         */}
-                        <div className="relative p-3 rounded-xl bg-zinc-900 dark:bg-white border border-transparent dark:border-white/10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)]">
-                            <div className="text-white dark:text-zinc-900 antialiased">
+                        <div className="relative px-3 py-2 rounded-xl bg-zinc-900 dark:bg-white border border-transparent dark:border-white/10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)]">
+                            <div className="text-xs font-medium text-white dark:text-zinc-900 antialiased">
                                 {content}
                             </div>
                         </div>
@@ -65,7 +67,7 @@ const Tooltip = ({ text, content, underline = true }) => {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </span>
+        </div>
     );
 };
 

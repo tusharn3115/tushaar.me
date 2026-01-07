@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Github, ArrowUpRight, Loader2 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import {
@@ -60,15 +60,15 @@ const GitHubSection = () => {
         level4: '#022c22', // Green 950
     };
 
-    // DARK MODE THEME (GitHub-like)
+    // DARK MODE THEME (GitHub-like) - Muted Forest
     const darkTheme = {
         textMain: '#f8fafc', // Slate 50
         textSub: '#94a3b8',  // Slate 400
         level0: '#161b22', // Darkest
-        level1: '#0e4429', // Dark Green
-        level2: '#006d32', // Medium Green
-        level3: '#26a641', // Bright Green
-        level4: '#39d353', // Neon Green
+        level1: '#0d361e', // Deep Forest
+        level2: '#1b5e32', // Medium Forest
+        level3: '#2ea043', // Typical GitHub Green
+        level4: '#4ade80', // Highlight Green
     };
 
     const theme = currentTheme === 'dark' ? darkTheme : lightTheme;
@@ -141,35 +141,30 @@ const GitHubSection = () => {
                 className="w-full max-w-[900px] mx-auto font-sans relative py-8"
             >
                 {/* Header */}
-                <div className="flex items-start justify-between mb-8">
-                    <div className="flex flex-col gap-1">
-                        <motion.div
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.2 }}
-                            className="flex items-center gap-2 text-sm font-medium" style={{ color: theme.textSub }}
-                        >
-                            <Github size={16} />
-                            <span>GitHub Activity</span>
-                        </motion.div>
-                        <motion.h3
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.3 }}
-                            className="text-2xl font-bold tracking-tight transition-colors duration-300" style={{ color: theme.textMain }}
-                        >
-                            @{username}
-                        </motion.h3>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                    className="flex justify-between items-end mb-12 border-b border-black/5 dark:border-white/5 pb-8"
+                >
+                    <div className="space-y-1">
+                        <span className="text-[9px] font-mono tracking-[0.3em] uppercase text-gray-400 block">
+                            Open Source
+                        </span>
+                        <div className="flex items-baseline gap-3">
+                            <h2 className="text-4xl md:text-5xl font-instrument italic font-normal text-gray-900 dark:text-white tracking-tight">
+                                GitHub <span className="font-inter not-italic font-light text-gray-500 dark:text-gray-400 text-3xl md:text-4xl">Activity</span>
+                            </h2>
+                            <span className="text-lg font-mono text-gray-500 dark:text-gray-600 hidden sm:block">@{username}</span>
+                        </div>
                     </div>
 
                     <motion.a
                         href={`https://github.com/${username}`}
                         target="_blank"
                         rel="noreferrer"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.4 }}
-                        className="flex items-center gap-1 text-sm font-semibold transition-all duration-300 group/link"
+                        className="flex items-center gap-1 text-sm font-semibold transition-all duration-300 group/link pb-1"
                         style={{ color: theme.textMain }}
                     >
                         <span className="relative after:absolute after:bg-current after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300">
@@ -177,7 +172,7 @@ const GitHubSection = () => {
                         </span>
                         <ArrowUpRight size={16} className="text-slate-400 dark:text-slate-500 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 group-hover/link:text-current" />
                     </motion.a>
-                </div>
+                </motion.div>
 
                 {loading ? (
                     <div className="h-[150px] flex flex-col items-center justify-center w-full gap-3">

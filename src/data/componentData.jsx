@@ -8,7 +8,7 @@ import DynamicIsland from '../components/ui-components/DynamicIsland';
 
 // PLACEHOLDERS
 const PeelingCheckboxCode = `import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 /**
  * PeelingCheckbox
@@ -256,7 +256,7 @@ const PeelingCheckbox = ({
 
 export default PeelingCheckbox;`;
 const AskAICode = `import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { Command, CornerDownLeft } from 'lucide-react';
 
 // Custom "AI Sparkles" Icon Component
@@ -736,7 +736,7 @@ export default function AskAI() {
     );
 }`;
 const ClickSparklesCode = `import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 
 // ==============================================
 // 👇 SPARKLE PARTICLE COMPONENT
@@ -841,7 +841,7 @@ const FileTreeCode = `import React, { useState } from "react";
 import {
     motion,
     AnimatePresence,
-} from "framer-motion";
+} from "motion/react";
 import {
     Folder,
     FolderOpen,
@@ -1111,7 +1111,7 @@ const FileTree = () => {
 
 export default FileTree;`;
 const GlassyFolderCode = `import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 // --- Mini Skeleton Components (Cleaner & Sharper) ---
 const FileSkeleton1 = () => (
@@ -1346,7 +1346,7 @@ const GlassyFolder = () => {
 
 export default GlassyFolder;`;
 const VoiceConversationCode = `import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { Mic } from "lucide-react";
 
 export default function VoiceConversation() {
@@ -1721,7 +1721,7 @@ import {
                                 <IconLink icon={<XLogo size={18} />} label="X" />
                                 <IconLink icon={<Linkedin size={20} />} label="In" />
                                 <IconLink icon={<Mail size={20} />} label="Mail" />
-                            </motion.div>S
+                            </motion.div>
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -1773,50 +1773,101 @@ export const componentsList = [
     {
         id: 'ask-ai',
         title: 'Ask AI Interaction',
+        description: 'A polished AI chat interface with "jelly" processing states, markdown rendering, and source citations.',
         component: <AskAI />,
         code: AskAICode,
-        category: 'UI Components'
+        category: 'UI Components',
+        install: 'npm install motion lucide-react',
+        usage: `import AskAI from './AskAI';
+
+// Usage
+<div className="h-[600px] w-full bg-white relative">
+  <AskAI />
+</div>`
     },
     {
         id: 'voice-ui',
         title: 'Voice UI Liquid Morph',
+        description: 'A fluid, morphing voice interface visualization that reacts to state changes.',
         component: <VoiceConversation />,
         code: VoiceConversationCode,
-        category: 'UI Components'
+        category: 'UI Components',
+        install: 'npm install motion lucide-react',
+        usage: `import VoiceConversation from './VoiceConversation';
+
+// Usage
+<VoiceConversation />`
     },
     {
         id: 'glassy-folder',
         title: '3D Glassy Folder',
+        description: 'A beautiful 3D folder component with glassmorphism effects and smooth opening animations.',
         component: <GlassyFolder />,
         code: GlassyFolderCode,
-        category: 'UI Components'
+        category: 'UI Components',
+        install: 'npm install motion',
+        usage: `import GlassyFolder from './GlassyFolder';
+
+// Usage
+<div className="flex items-center justify-center h-screen bg-neutral-900">
+  <GlassyFolder />
+</div>`
     },
     {
         id: 'peeling-checkbox',
         title: 'Peeling Checkbox',
+        description: 'A playful checkbox that peels off like a sticker when unchecked.',
         component: <PeelingCheckbox />,
         code: PeelingCheckboxCode,
-        category: 'Interactions'
+        category: 'Interactions',
+        install: 'npm install motion',
+        usage: `import PeelingCheckbox from './PeelingCheckbox';
+
+// Usage
+<PeelingCheckbox defaultChecked={false} />`
     },
     {
         id: 'file-tree',
         title: 'VS Code File Tree',
+        description: 'A recursive file tree component resembling VS Code explorer with expandable folders.',
         component: <FileTree />,
         code: FileTreeCode,
-        category: 'Data Display'
+        category: 'Data Display',
+        install: 'npm install motion lucide-react',
+        usage: `import FileTree from './FileTree';
+
+// Usage
+<FileTree />`
     },
     {
         id: 'click-sparkles',
         title: 'Click Sparkles',
+        description: 'A burst of colorful sparkles that appear on click, perfect for adding delight to interactions.',
         component: <ClickSparkles />,
         code: ClickSparklesCode,
-        category: 'Backgrounds'
+        category: 'Backgrounds',
+        install: 'npm install motion',
+        usage: `import ClickSparkles from './ClickSparkles';
+
+// Usage
+<div className="relative w-full h-[400px]">
+    <ClickSparkles />
+    {/* Other content */}
+</div>`
     },
     {
         id: 'dynamic-island',
         title: 'Dynamic Island',
+        description: 'An interactive, expanding pill that morphs into a detailed card, inspired by iOS Dynamic Island.',
         component: <DynamicIsland />,
         code: DynamicIsland,
-        category: 'UI Components'
+        category: 'UI Components',
+        install: 'npm install motion lucide-react',
+        usage: `import DynamicIsland from './DynamicIsland';
+
+// Usage
+<div className="w-full flex justify-center pt-10">
+    <DynamicIsland />
+</div>`
     }
 ];

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { componentsList } from '../../data/componentData.jsx';
 import { useTheme } from '../../context/ThemeContext';
 import Logo from '../ui/Logo';
@@ -7,15 +7,16 @@ import CodeBlock from '../ui-components/CodeBlock';
 import {
     PanelLeftClose,
     PanelLeftOpen,
-    Sun,
-    Moon,
-    Code,
-    Eye,
     ChevronRight,
     Search
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SunIcon from '../icons/SunIcon';
+import MoonIcon from '../icons/MoonIcon';
+import EyeIcon from '../icons/EyeIcon';
+import CodeIcon from '../icons/CodeIcon';
 import { cn } from '../../lib/utils'; // Assuming you have this utility
+
 
 const ComponentsPage = () => {
     const [selectedId, setSelectedId] = useState(0);
@@ -23,6 +24,10 @@ const ComponentsPage = () => {
     const [viewMode, setViewMode] = useState('preview'); // 'preview' | 'code'
     const { theme, toggleTheme } = useTheme();
     const [searchQuery, setSearchQuery] = useState('');
+
+    const previewIconRef = React.useRef(null);
+    const codeIconRef = React.useRef(null);
+    const themeIconRef = React.useRef(null);
 
     const selectedItem = componentsList[selectedId];
 
@@ -38,51 +43,52 @@ const ComponentsPage = () => {
     }, {});
 
     return (
-        <div className="flex h-screen bg-white dark:bg-[#09090b] text-zinc-950 dark:text-zinc-50 overflow-hidden font-inter selection:bg-zinc-200 dark:selection:bg-zinc-800 transition-colors duration-500">
+        <div className="flex h-screen bg-zinc-50 dark:bg-[#0c0c0e] text-zinc-950 dark:text-zinc-50 overflow-hidden font-inter selection:bg-zinc-200 dark:selection:bg-zinc-800 transition-colors duration-500">
+            <div className="noise-bg-fixed opacity-20" />
 
             {/* Sidebar */}
             <motion.aside
                 initial={false}
-                animate={{ width: isSidebarOpen ? 260 : 0, opacity: isSidebarOpen ? 1 : 0 }}
+                animate={{ width: isSidebarOpen ? 280 : 0, opacity: isSidebarOpen ? 1 : 0 }}
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className="h-full border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#09090b] flex flex-col flex-shrink-0 overflow-hidden relative z-20 group/sidebar"
+                className="h-full border-r border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#0c0c0e]/50 backdrop-blur-xl flex flex-col flex-shrink-0 overflow-hidden relative z-20 group/sidebar"
             >
-                <div className="w-[260px] h-full flex flex-col">
+                <div className="w-[280px] h-full flex flex-col">
                     {/* Header */}
-                    <div className="h-14 px-4 flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 flex-shrink-0">
-                        <Link to="/" className="flex items-center gap-2 group opacity-80 hover:opacity-100 transition-opacity">
-                            <div className="w-6 h-6 flex items-center justify-center">
-                                <Logo className="w-full h-full" />
+                    <div className="h-14 px-5 flex items-center justify-between border-b border-black/5 dark:border-white/5 flex-shrink-0">
+                        <Link to="/" className="flex items-center gap-2.5 group opacity-70 hover:opacity-100 transition-opacity">
+                            <div className="w-8 h-8 flex items-center justify-center bg-black/5 dark:bg-white/10 rounded-lg">
+                                <Logo className="w-5 h-5" />
                             </div>
-                            <span className="font-semibold text-sm tracking-tight">Portfolio</span>
+                            <span className="font-semibold text-sm tracking-tight font-instrument italic text-lg">Portfolio</span>
                         </Link>
                         <button
                             onClick={() => setSidebarOpen(false)}
-                            className="p-1.5 rounded-md text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all"
+                            className="p-1.5 rounded-md text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 hover:bg-black/5 dark:hover:bg-white/5 transition-all"
                         >
                             <PanelLeftClose size={16} />
                         </button>
                     </div>
 
                     {/* Search */}
-                    <div className="p-3 pb-1">
-                        <div className="relative">
-                            <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-400" />
+                    <div className="p-4 pb-2">
+                        <div className="relative group/search">
+                            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within/search:text-zinc-600 dark:group-focus-within/search:text-zinc-300 transition-colors" />
                             <input
                                 type="text"
                                 placeholder="Search components..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg py-1.5 pl-8 pr-3 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-zinc-200 dark:focus:ring-zinc-800 transition-all placeholder:text-zinc-400"
+                                className="w-full bg-white dark:bg-[#121214] border border-black/5 dark:border-white/5 rounded-lg py-2 pl-9 pr-3 text-[13px] font-medium focus:outline-none focus:ring-2 focus:ring-black/5 dark:focus:ring-white/5 focus:border-zinc-300 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400 shadow-sm"
                             />
                         </div>
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 overflow-y-auto px-3 py-4 space-y-6 custom-scrollbar">
+                    <div className="flex-1 overflow-y-auto px-4 py-6 space-y-9 custom-scrollbar">
                         {Object.entries(categories).map(([category, items]) => (
                             <div key={category}>
-                                <h3 className="text-[10px] font-bold text-zinc-400 dark:text-zinc-600 uppercase tracking-widest mb-2 px-2">
+                                <h3 className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500 mb-3 px-3 uppercase tracking-wider">
                                     {category}
                                 </h3>
                                 <div className="space-y-0.5">
@@ -97,16 +103,13 @@ const ComponentsPage = () => {
                                                     setViewMode('preview');
                                                 }}
                                                 className={cn(
-                                                    "w-full text-left px-2 py-1.5 rounded-md text-sm transition-all duration-200 flex items-center justify-between group",
+                                                    "w-full text-left px-3 py-1.5 text-[13px] transition-all duration-200 cursor-pointer rounded-md border-l-[2px] flex items-center gap-2",
                                                     isActive
-                                                        ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white font-medium shadow-sm"
-                                                        : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-900 hover:text-zinc-900 dark:hover:text-zinc-200"
+                                                        ? "bg-black/5 dark:bg-white/10 text-zinc-900 dark:text-white font-medium border-black dark:border-white"
+                                                        : "border-transparent text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5"
                                                 )}
                                             >
-                                                <span>{item.title}</span>
-                                                {isActive && (
-                                                    <motion.div layoutId="active-indicator" className="w-1 h-1 rounded-full bg-zinc-400 dark:bg-zinc-500" />
-                                                )}
+                                                {item.title}
                                             </button>
                                         );
                                     })}
@@ -120,125 +123,206 @@ const ComponentsPage = () => {
                             </div>
                         )}
                     </div>
-
-                    {/* Footer Info */}
-                    <div className="p-4 border-t border-zinc-200 dark:border-zinc-800 flex flex-col gap-1">
-                        <div className="flex justify-between items-center text-[10px] text-zinc-400 font-mono">
-                            <span className="flex items-center gap-1.5">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                                </span>
-                                TusharNegi
-                            </span>
-                            <span>v1.0</span>
-                        </div>
-                    </div>
                 </div>
             </motion.aside>
 
             {/* Main Content */}
-            <main className="flex-1 flex flex-col min-w-0 bg-zinc-50/50 dark:bg-[#09090b] relative z-10 font-sans">
+            <main className="flex-1 flex flex-col min-w-0 bg-transparent relative z-10 font-sans h-screen overflow-hidden">
 
                 {/* Top Toolbar */}
-                <header className="h-14 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-6 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-md sticky top-0 z-30">
+                <header className="h-14 border-b border-black/5 dark:border-white/5 flex items-center justify-between px-6 bg-white/70 dark:bg-[#0c0c0e]/70 backdrop-blur-xl sticky top-0 z-30 shrink-0">
                     <div className="flex items-center gap-3">
                         {!isSidebarOpen && (
                             <button
                                 onClick={() => setSidebarOpen(true)}
-                                className="p-2 -ml-2 rounded-md text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all"
+                                className="p-2 -ml-2 rounded-md text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all"
                             >
                                 <PanelLeftOpen size={18} />
                             </button>
                         )}
-                        {!isSidebarOpen && <div className="h-4 w-[1px] bg-zinc-200 dark:bg-zinc-800" />}
+                        {!isSidebarOpen && <div className="h-4 w-[1px] bg-black/10 dark:bg-white/10" />}
 
+                        {/* Breadcrumbs */}
                         <div className="flex items-center gap-2 text-sm text-zinc-500">
                             <span>Components</span>
-                            <ChevronRight size={14} className="text-zinc-300 dark:text-zinc-700" />
+                            <span className="text-zinc-300 dark:text-zinc-700">/</span>
                             <span className="font-medium text-zinc-900 dark:text-zinc-100">{selectedItem?.title}</span>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                        {/* View Toggles */}
-                        <div className="flex items-center p-0.5 bg-zinc-100 dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700/50">
-                            <button
-                                onClick={() => setViewMode('preview')}
-                                className={cn(
-                                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all",
-                                    viewMode === 'preview'
-                                        ? "bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 shadow-sm"
-                                        : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
-                                )}
-                            >
-                                <Eye size={14} />
-                                Preview
-                            </button>
-                            <button
-                                onClick={() => setViewMode('code')}
-                                className={cn(
-                                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all",
-                                    viewMode === 'code'
-                                        ? "bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 shadow-sm"
-                                        : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
-                                )}
-                            >
-                                <Code size={14} />
-                                Code
-                            </button>
-                        </div>
-
-                        <div className="h-4 w-[1px] bg-zinc-200 dark:bg-zinc-800" />
-
+                    <div className="flex items-center gap-4">
                         <button
                             onClick={toggleTheme}
-                            className="p-2 rounded-md text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all"
+                            className="p-2 rounded-lg text-zinc-500 hover:text-zinc-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all"
                         >
-                            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                            {theme === 'dark' ? <SunIcon size={18} /> : <MoonIcon size={18} />}
                         </button>
                     </div>
                 </header>
 
-                {/* Content Area */}
-                <div className="flex-1 overflow-hidden relative group">
-                    {/* Background Grid Pattern */}
-                    <div className="absolute inset-0 pointer-events-none opacity-[0.4] dark:opacity-[0.2]"
-                        style={{
-                            backgroundImage: `radial-gradient(${theme === 'dark' ? '#52525b' : '#d4d4d8'} 1px, transparent 1px)`,
-                            backgroundSize: '24px 24px'
-                        }}
-                    />
+                {/* Scrollable Content Area */}
+                <div className="flex-1 overflow-y-auto custom-scrollbar">
+                    <div className="max-w-[1600px] mx-auto">
+                        <div className="grid grid-cols-1 xl:grid-cols-[1fr_240px] gap-12">
 
-                    <AnimatePresence mode='wait'>
-                        {viewMode === 'preview' ? (
-                            <motion.div
-                                key={`preview-${selectedItem?.id}`}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.3, ease: "easeInOut" }}
-                                className="w-full h-full flex items-center justify-center p-6 sm:p-12"
-                            >
-                                <div className="absolute inset-0 flex items-center justify-center overflow-auto custom-scrollbar p-6">
-                                    {selectedItem?.component}
+                            {/* Center Column: Documentation */}
+                            <div className="min-w-0 px-8 py-12 pb-20 xl:border-r border-black/5 dark:border-white/5">
+
+                                <AnimatePresence mode="wait">
+                                    <motion.div
+                                        key={selectedItem?.id || selectedId}
+                                        initial={{ opacity: 0, filter: "blur(4px)", y: 10 }}
+                                        animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                                        exit={{ opacity: 0, filter: "blur(4px)", y: -10 }}
+                                        transition={{ duration: 0.3, ease: "easeOut" }}
+                                    >
+
+                                        {/* Header Section */}
+                                        <div className="mb-12 space-y-4">
+                                            <h1 className="text-4xl md:text-5xl font-instrument italic font-normal tracking-tight text-zinc-900 dark:text-white">
+                                                {selectedItem?.title}
+                                            </h1>
+                                            <p className="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-2xl font-light">
+                                                {selectedItem?.description || "A highly reusable component for your projects."}
+                                            </p>
+                                        </div>
+
+                                        {/* Main Preview/Code Tabs */}
+                                        <div id="preview-section" className="space-y-6 mb-16 scroll-mt-24">
+                                            <div className="flex items-center gap-8 border-b border-black/5 dark:border-white/5">
+                                                <button
+                                                    onClick={() => setViewMode('preview')}
+                                                    className={cn(
+                                                        "pb-3 text-sm font-medium transition-all relative",
+                                                        viewMode === 'preview'
+                                                            ? "text-black dark:text-white"
+                                                            : "text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
+                                                    )}
+                                                >
+                                                    Preview
+                                                    {viewMode === 'preview' && (
+                                                        <motion.div
+                                                            layoutId="activeTab"
+                                                            className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-black dark:bg-white"
+                                                        />
+                                                    )}
+                                                </button>
+                                                <button
+                                                    onClick={() => setViewMode('code')}
+                                                    className={cn(
+                                                        "pb-3 text-sm font-medium transition-all relative",
+                                                        viewMode === 'code'
+                                                            ? "text-black dark:text-white"
+                                                            : "text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
+                                                    )}
+                                                >
+                                                    Code
+                                                    {viewMode === 'code' && (
+                                                        <motion.div
+                                                            layoutId="activeTab"
+                                                            className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-black dark:bg-white"
+                                                        />
+                                                    )}
+                                                </button>
+                                            </div>
+
+                                            <div className="relative rounded-xl border border-black/5 dark:border-white/10 bg-white dark:bg-[#121214] min-h-[500px] shadow-sm overflow-hidden">
+                                                {viewMode === 'preview' ? (
+                                                    <div className="w-full min-h-[500px] flex items-center justify-center p-8 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:20px_20px]">
+                                                        <div className="absolute inset-0 bg-white/50 dark:bg-[#09090b]/50 pointer-events-none" />
+                                                        <div className="relative z-10 w-full flex justify-center">
+                                                            {selectedItem?.component}
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="w-full h-full min-h-[500px] overflow-hidden rounded-xl">
+                                                        <CodeBlock
+                                                            code={selectedItem?.code || '// No code available'}
+                                                            fileName={`${selectedItem?.title?.replace(/\s+/g, '') || 'Component'}.jsx`}
+                                                        />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Documentation Sections */}
+                                        <div className="space-y-10">
+                                            {/* Installation */}
+                                            {selectedItem?.install && (
+                                                <section id="installation" className="space-y-4 scroll-mt-20">
+                                                    <h2 className="text-xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
+                                                        Installation
+                                                    </h2>
+                                                    <div className="mt-4">
+                                                        <CodeBlock code={selectedItem.install} fileName="Terminal" />
+                                                    </div>
+                                                </section>
+                                            )}
+
+                                            {/* Usage */}
+                                            {selectedItem?.usage && (
+                                                <section id="usage" className="space-y-4 scroll-mt-20">
+                                                    <h2 className="text-xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
+                                                        Usage
+                                                    </h2>
+                                                    <CodeBlock code={selectedItem.usage} fileName="Usage.jsx" />
+                                                </section>
+                                            )}
+                                        </div>
+                                    </motion.div>
+                                </AnimatePresence>
+
+                                {/* Footer attribution
+                                <div className="border-t border-zinc-200 dark:border-zinc-800 mt-20 py-10">
+                                    <div className="flex items-center justify-between text-sm text-zinc-500">
+                                        <p>Built by Tushar Negi</p>
+                                        <p className="flex items-center gap-2">
+                                            Portfolio v2.0
+                                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                        </p>
+                                    </div>
+                                </div> */}
+
+                            </div>
+
+                            {/* Right Column: Table of Contents */}
+                            <div className="hidden xl:block min-w-0">
+                                <div className="sticky top-24 pr-8">
+                                    <h4 className="font-semibold text-xs tracking-wider uppercase mb-5 text-zinc-900 dark:text-white">On This Page</h4>
+                                    <ul className="space-y-3.5 text-sm text-zinc-500 dark:text-zinc-400 border-l border-black/5 dark:border-white/5 pl-4">
+                                        <li>
+                                            <button
+                                                onClick={() => {
+                                                    setViewMode('code');
+                                                    document.getElementById('preview-section')?.scrollIntoView({ behavior: 'smooth' });
+                                                }}
+                                                className="hover:text-black dark:hover:text-white transition-colors cursor-pointer text-left w-full hover:translate-x-1 duration-200"
+                                            >
+                                                Code
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                onClick={() => document.getElementById('installation')?.scrollIntoView({ behavior: 'smooth' })}
+                                                className="hover:text-black dark:hover:text-white transition-colors cursor-pointer text-left w-full hover:translate-x-1 duration-200"
+                                            >
+                                                Installation
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                onClick={() => document.getElementById('usage')?.scrollIntoView({ behavior: 'smooth' })}
+                                                className="hover:text-black dark:hover:text-white transition-colors cursor-pointer text-left w-full hover:translate-x-1 duration-200"
+                                            >
+                                                Usage
+                                            </button>
+                                        </li>
+                                    </ul>
                                 </div>
-                            </motion.div>
-                        ) : (
-                            <motion.div
-                                key={`code-${selectedItem?.id}`}
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: -20 }}
-                                transition={{ duration: 0.3, ease: "easeOut" }}
-                                className="w-full h-full overflow-hidden flex flex-col p-6"
-                            >
-                                <div className="max-w-4xl mx-auto w-full h-full rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden bg-white dark:bg-[#09090b]">
-                                    <CodeBlock code={selectedItem?.code || '// No code available'} />
-                                </div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
