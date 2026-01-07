@@ -14,6 +14,7 @@ import AllProjects from './components/projects/AllProjects';
 
 import { AnimatePresence, motion } from 'motion/react';
 import CustomCursor from './components/ui/CustomCursor';
+import SmoothScroll from './components/ui/SmoothScroll';
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -32,6 +33,7 @@ const AppContent = () => {
   return (
     <>
       <ScrollToTop />
+      <SmoothScroll />
       {/* <CustomCursor /> */}
       <div className="noise-bg-fixed" />
 
