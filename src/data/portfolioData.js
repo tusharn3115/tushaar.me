@@ -39,6 +39,7 @@ export const projects = [
         longDescription: "IntelliKit is an all-in-one AI-powered toolkit designed to boost your productivity. Effortlessly generate high-quality written content, create stunning visuals, and automate repetitive tasks—all in a single, streamlined platform.",
         stack: ["React", "Tailwind CSS", "NeonDB", "Gemini API"],
         gradient: "from-blue-500 to-indigo-500",
+        bgColor: "#8e9bf8",
         img: intellikit,
         live: "https://intelli-kit.vercel.app/",
         github: "https://github.com/tusharn3115/IntelliKit"
@@ -51,6 +52,7 @@ export const projects = [
         longDescription: "Insightix is a sleek, conversion-focused SaaS landing page designed to show case your product with clarity and confidence. Built for modern startups, it combines clean design with responsive layouts to highlight features and value.",
         stack: ["React", "Tailwind CSS", "Motion React", "Shadcn UI"],
         gradient: "from-slate-500 to-zinc-500",
+        bgColor: "#0f0f11",
         img: insightix,
         live: "https://insightix-delta.vercel.app/",
         github: "https://github.com/tusharn3115/Insightix"
@@ -63,6 +65,7 @@ export const projects = [
         longDescription: "Grey Allegiance Security provides discreet and highly professional personal protection services. This platform ensures clients can access tailored security solutions with privacy and comfort, whether for corporate events or private travel.",
         stack: ["React", "Node.js", "MongoDB", "Express"],
         gradient: "from-zinc-600 to-stone-600",
+        bgColor: "#52525b",
         img: greyAllegiance,
         live: "https://www.greyallegiance.com/",
         github: null
@@ -113,5 +116,6 @@ export const socialLinks = {
     github: "https://github.com/tusharn3115",
     twitter: "https://twitter.com/tushaar_dev",
     linkedin: "https://www.linkedin.com/in/tushar-negi-786571317",
+    instagram: "https://instagram.com/tushaaaar05",
     email: "mailto:negitushar923@gmail.com"
 };

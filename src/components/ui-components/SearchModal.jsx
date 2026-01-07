@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // Import Data
 import { componentsList } from '../../data/componentData';
-import { roles, projects } from '../../data/portfolioData';
+import { roles, projects, socialLinks } from '../../data/portfolioData';
 
 const SearchModal = ({ isOpen, onClose }) => {
     const [query, setQuery] = useState('');
@@ -38,7 +38,6 @@ const SearchModal = ({ isOpen, onClose }) => {
 
         const portfolioItems = [
             { id: 'about', title: 'About', path: '/#about', icon: User, type: 'link', section: 'Portfolio' },
-            // { id: 'testimonials', title: 'Testimonials', path: '/#testimonials', icon: MessageSquareQuote, type: 'link', section: 'Portfolio' }, // Assuming these sections exist or will exist
             { id: 'tech-stack', title: 'Tech Stack', path: '/#tech-stack', icon: Code, type: 'link', section: 'Portfolio' },
             { id: 'experience', title: 'Experience', path: '/#experience', icon: Briefcase, type: 'link', section: 'Portfolio' },
         ];
@@ -46,8 +45,8 @@ const SearchModal = ({ isOpen, onClose }) => {
         const componentItems = componentsList.map(comp => ({
             id: `comp-${comp.id}`,
             title: comp.title,
-            path: '/component', // Needs specific logic to open component, for now generic
-            state: { selectedId: comp.id }, // Pass state to navigate if possible, or handle specifically
+            path: '/component',
+            state: { selectedId: comp.id },
             icon: Layers,
             type: 'component',
             section: 'Components'
@@ -56,11 +55,19 @@ const SearchModal = ({ isOpen, onClose }) => {
         const projectItems = projects.map(proj => ({
             id: `proj-${proj.title}`,
             title: proj.title,
-            path: '/#projects',
+            path: '/projects',
             icon: Briefcase,
             type: 'link',
             section: 'Projects'
         }));
+
+        const socialItems = [
+            { id: 'social-github', title: 'GitHub', path: socialLinks.github, icon: Github, type: 'external', section: 'Socials' },
+            { id: 'social-linkedin', title: 'LinkedIn', path: socialLinks.linkedin, icon: Linkedin, type: 'external', section: 'Socials' },
+            { id: 'social-twitter', title: 'Twitter', path: socialLinks.twitter, icon: Twitter, type: 'external', section: 'Socials' },
+            { id: 'social-instagram', title: 'Instagram', path: socialLinks.instagram, icon: Instagram, type: 'external', section: 'Socials' },
+            { id: 'social-email', title: 'Email', path: socialLinks.email, icon: User, type: 'external', section: 'Socials' },
+        ];
 
         const experienceItems = roles.map(role => ({
             id: `exp-${role.company}`,
@@ -72,7 +79,7 @@ const SearchModal = ({ isOpen, onClose }) => {
             section: 'Experience'
         }));
 
-        return [...menuItems, ...portfolioItems, ...componentItems, ...projectItems, ...experienceItems];
+        return [...menuItems, ...portfolioItems, ...componentItems, ...projectItems, ...socialItems, ...experienceItems];
     }, []);
 
     // Filter items
@@ -133,8 +140,8 @@ const SearchModal = ({ isOpen, onClose }) => {
         } else if (item.type === 'component') {
             // Logic to switch component if on component page
             navigate(item.path, { state: item.state });
-            // Since ComponentsPage reads state, we might need to enhance ComponentsPage to Handle passed state for deep linking
-            // For now, simple navigation
+        } else if (item.type === 'external') {
+            window.open(item.path, '_blank');
         }
         onClose();
     };

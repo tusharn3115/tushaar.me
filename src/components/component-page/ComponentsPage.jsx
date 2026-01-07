@@ -10,7 +10,7 @@ import {
     ChevronRight,
     Search
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SunIcon from '../icons/SunIcon';
 import MoonIcon from '../icons/MoonIcon';
 import EyeIcon from '../icons/EyeIcon';
@@ -19,7 +19,14 @@ import { cn } from '../../lib/utils'; // Assuming you have this utility
 
 
 const ComponentsPage = () => {
-    const [selectedId, setSelectedId] = useState(0);
+    const location = useLocation();
+    const [selectedId, setSelectedId] = useState(() => {
+        if (location.state?.selectedId) {
+            const index = componentsList.findIndex(c => c.id === location.state.selectedId);
+            return index !== -1 ? index : 0;
+        }
+        return 0;
+    });
     const [isSidebarOpen, setSidebarOpen] = useState(true);
     const [viewMode, setViewMode] = useState('preview'); // 'preview' | 'code'
     const { theme, toggleTheme } = useTheme();

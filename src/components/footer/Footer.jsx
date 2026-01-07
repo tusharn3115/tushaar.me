@@ -1,27 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from 'motion/react';
+import { VisitorCount } from './VisitorCount';
 
 const Footer = () => {
-    const [visits, setVisits] = useState(null);
-
-    useEffect(() => {
-        const getVisits = async () => {
-            try {
-                const res = await fetch(
-                    "https://api.countapi.dev/hit/tushar-portfolio/visits",
-                    { cache: "no-store" }
-                );
-                const data = await res.json();
-                setVisits(data.value);
-            } catch (err) {
-                console.log("Counter Error:", err);
-                setVisits("—");
-            }
-        };
-
-        getVisits();
-    }, []);
-
     return (
         <motion.footer
             initial="hidden"
@@ -34,9 +15,9 @@ const Footer = () => {
         >
             <p>© 2025 Tushar Negi.</p>
 
-            <p>
-                {visits !== null ? `Profile Visits — ${visits}` : "Loading..."}
-            </p>
+            <div className="flex items-center gap-1">
+                Profile Visits — <VisitorCount />
+            </div>
         </motion.footer>
     );
 };

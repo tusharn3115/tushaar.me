@@ -10,6 +10,7 @@ import Home from './components/home/Home';
 import BlogList from './components/blog/BlogList';
 import BlogPost from './components/blog/BlogPost';
 import ComponentsPage from './components/component-page/ComponentsPage';
+import AllProjects from './components/projects/AllProjects';
 
 import { AnimatePresence, motion } from 'motion/react';
 import CustomCursor from './components/ui/CustomCursor';
@@ -74,6 +75,7 @@ const AppContent = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/blog" element={<BlogList />} />
                 <Route path="/blog/:id" element={<BlogPost />} />
+                <Route path="/projects" element={<AllProjects />} />
               </Routes>
             </main>
           </motion.div>

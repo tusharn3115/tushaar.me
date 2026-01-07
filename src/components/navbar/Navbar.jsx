@@ -2,9 +2,18 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
-import { Github, Instagram, Twitter, Linkedin, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import Logo from '../ui/Logo';
 import SearchModal from '../ui-components/SearchModal';
+import { socialLinks } from '../../data/portfolioData';
+
+// Interactive Icons
+import InstagramIcon from '../icons/InstagramIcon';
+import TwitterXIcon from '../icons/TwitterXIcon';
+import GithubIcon from '../icons/GithubIcon';
+import LinkedinIcon from '../icons/LinkedinIcon';
+import SunIcon from '../icons/SunIcon';
+import MoonIcon from '../icons/MoonIcon';
 
 const Navbar = () => {
     const { theme, toggleTheme } = useTheme();
@@ -40,15 +49,15 @@ const Navbar = () => {
 
     const navLinks = [
         { name: 'Blog', href: '/blog' },
-        { name: 'Projects', href: '/' }, // Redirect to home for now
+        { name: 'Projects', href: '/projects' }, // Redirect to all projects
         { name: 'Components', href: '/component' },
     ];
 
     const iconLinks = [
-        { icon: Instagram, href: '#' },
-        { icon: Twitter, href: '#' },
-        { icon: Linkedin, href: '#' },
-        { icon: Github, href: 'https://github.com/tusharn3115' },
+        { Icon: InstagramIcon, href: socialLinks.instagram },
+        { Icon: TwitterXIcon, href: socialLinks.twitter },
+        { Icon: LinkedinIcon, href: socialLinks.linkedin },
+        { Icon: GithubIcon, href: socialLinks.github },
     ];
 
     return (
@@ -90,21 +99,23 @@ const Navbar = () => {
                             href={item.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors transform hover:scale-110 active:scale-95 duration-200"
+                            className="text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors transform hover:scale-110 active:scale-95 duration-200 flex items-center justify-center p-1"
                         >
-                            <item.icon size={18} strokeWidth={1.5} />
+                            <item.Icon size={20} strokeWidth={1.5} />
                         </a>
                     ))}
+
 
                     {/* Theme Toggle */}
                     <button
                         onClick={toggleTheme}
-                        className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white cursor-pointer"
+                        className="flex items-center justify-center p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white cursor-pointer"
+                        aria-label="Toggle Theme"
                     >
                         {theme === 'dark' ? (
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                            <SunIcon size={20} strokeWidth={2} />
                         ) : (
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                            <MoonIcon size={20} strokeWidth={2} />
                         )}
                     </button>
 

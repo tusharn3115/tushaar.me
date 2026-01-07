@@ -20,19 +20,27 @@ const ProjectCard = ({ project, index }) => {
         >
             {/* Image/Gradient Area */}
             <div className="block relative w-full aspect-video rounded-xl overflow-hidden group-hover:scale-[1.01] transition-transform duration-700 ease-[0.22,1,0.36,1]">
-                {/* Background Base - Subtle Off-White/Dark */}
-                <div className="absolute inset-0 bg-[#F5F4F0] dark:bg-[#121214] transition-colors" />
+                {/* Background Base - Subtle Off-White/Dark or Specific Color */}
+                <div
+                    className="absolute inset-0 bg-[#F5F4F0] dark:bg-[#121214] transition-colors"
+                    style={project.bgColor ? { backgroundColor: project.bgColor } : {}}
+                />
 
-                {/* Gradient/Image - Softer Opacity */}
-                <div className={`absolute inset-0 bg-linear-to-br ${project.gradient} opacity-60 group-hover:opacity-90 transition-all duration-700 ease-in-out`} />
+                {/* Gradient/Image - Only if no specific bgColor is set */}
+                {!project.bgColor && (
+                    <div className={`absolute inset-0 bg-linear-to-br ${project.gradient} opacity-60 group-hover:opacity-90 transition-all duration-700 ease-in-out`} />
+                )}
 
                 {/* Browser/Preview Container - Floating Product Feel */}
                 <div className="absolute inset-x-6 inset-t-8 -bottom-2 rounded-t-lg bg-white dark:bg-[#18181b] shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] overflow-hidden border border-black/5 dark:border-white/5 transition-all duration-500 ease-out group-hover:translate-y-[-6px]">
                     {/* Browser Toolbar - Minimal */}
-                    <div className="h-6 w-full bg-white dark:bg-[#18181b] border-b border-black/5 dark:border-white/5 flex items-center px-3 gap-1.5">
-                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-700" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-700" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-700" />
+                    <div
+                        className="h-6 w-full bg-white dark:bg-[#18181b] border-b border-black/5 dark:border-white/5 flex items-center px-3 gap-1.5"
+                        style={project.bgColor ? { backgroundColor: project.bgColor, borderColor: 'rgba(255,255,255,0.1)' } : {}}
+                    >
+                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-700" style={project.bgColor ? { backgroundColor: 'rgba(255,255,255,0.3)' } : {}} />
+                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-700" style={project.bgColor ? { backgroundColor: 'rgba(255,255,255,0.3)' } : {}} />
+                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-700" style={project.bgColor ? { backgroundColor: 'rgba(255,255,255,0.3)' } : {}} />
                     </div>
                     {/* Image Placeholder or Actual Image */}
                     <div className="relative w-full h-full bg-gray-50 dark:bg-zinc-900 flex items-center justify-center">

@@ -139,9 +139,9 @@ const GlassyFolder = () => {
 
                     {/* Back Plate */}
                     <div
-                        className="absolute inset-0 bg-linear-to-b from-[#333] to-[#1a1a1a] rounded-[24px] shadow-2xl overflow-hidden transition-all duration-300"
+                        className="absolute inset-0 bg-linear-to-b from-[#333] to-[#1a1a1a] rounded-[24px] overflow-hidden transition-all duration-300"
                         style={{
-                            boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05)" // Replaced border with shadow
+                            boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(255,255,255,0.05)" // Manual smoother shadow
                         }}
                     >
                         {/* Subtle Texture */}
@@ -159,7 +159,7 @@ const GlassyFolder = () => {
                     <motion.div
                         custom={0}
                         variants={fileVariants}
-                        className="absolute w-28 h-24 bg-[#2a2a2a] rounded-xl shadow-lg origin-bottom flex overflow-hidden border border-transparent"
+                        className="absolute w-28 h-24 bg-[#2a2a2a] rounded-xl shadow-md origin-bottom flex overflow-hidden border border-transparent"
                         style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05)" }} // Replaced border
                     >
                         <FileSkeleton1 />
@@ -169,7 +169,7 @@ const GlassyFolder = () => {
                     <motion.div
                         custom={1}
                         variants={fileVariants}
-                        className="absolute w-28 h-24 bg-[#262626] rounded-xl shadow-lg origin-bottom flex overflow-hidden border border-transparent"
+                        className="absolute w-28 h-24 bg-[#262626] rounded-xl shadow-md origin-bottom flex overflow-hidden border border-transparent"
                         style={{ zIndex: 10, boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05)" }} // Replaced border
                     >
                         <FileSkeleton2 />
@@ -179,7 +179,7 @@ const GlassyFolder = () => {
                     <motion.div
                         custom={2}
                         variants={fileVariants}
-                        className="absolute w-28 h-24 bg-[#303030] rounded-xl shadow-lg origin-bottom flex overflow-hidden border border-transparent"
+                        className="absolute w-28 h-24 bg-[#303030] rounded-xl shadow-md origin-bottom flex overflow-hidden border border-transparent"
                         style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05)" }} // Replaced border
                     >
                         <FileSkeleton3 />
@@ -205,7 +205,7 @@ const GlassyFolder = () => {
                         className="absolute inset-0 bg-linear-to-br from-white/10 via-white/5 to-transparent backdrop-blur-md rounded-[24px]"
                         style={{
                             // Replaced standard border with box-shadow for smooth edges in 3D
-                            boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.4)"
+                            boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.2)"
                         }}
                     >
 
