@@ -1,5 +1,5 @@
 ```
-████████╗██╗   ██╗███████╗██╗  ██╗ █████╗ ██████╗   | hey! welcome to my gh profile.
+████████╗██╗   ██╗███████╗██╗  ██╗ █████╗ ██████╗   | hey! welcome to my github profile.
 ╚══██╔══╝██║   ██║██╔════╝██║  ██║██╔══██╗██╔══██╗  | age - 22yrs
    ██║   ██║   ██║███████╗███████║███████║██████╔╝  | tech stack - html, css, js, ts, react, nextjs, node, git, github, tailwind
    ██║   ██║   ██║╚════██║██╔══██║██╔══██║██╔══██╗  | about me - passionate about tech, always learning and creating
