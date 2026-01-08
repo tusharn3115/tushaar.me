@@ -419,7 +419,7 @@ export default function AskAI() {
                             boxShadow: "0px 4px 6px -1px rgba(0,0,0,0.05), 0px 2px 4px -1px rgba(0,0,0,0.03), 0 0 0 1px rgba(0,0,0,0.02)"
                         },
                         input: {
-                            width: 580,
+                            width: 'min(580px, 90vw)', // Responsive width
                             height: 340,
                             borderRadius: 24,
                             // Reduced, subtle shadow
@@ -432,7 +432,7 @@ export default function AskAI() {
                             boxShadow: "0px 4px 6px -1px rgba(0,0,0,0.05), 0px 2px 4px -1px rgba(0,0,0,0.03), 0 0 0 1px rgba(0,0,0,0.02)"
                         },
                         result: {
-                            width: 580,
+                            width: 'min(580px, 90vw)', // Responsive width
                             height: 520,
                             borderRadius: 24,
                             boxShadow: "0px 15px 30px -10px rgba(0,0,0,0.08), 0px 0px 0px 1px rgba(0,0,0,0.03)"

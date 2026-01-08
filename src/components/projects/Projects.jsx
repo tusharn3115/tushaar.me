@@ -11,7 +11,7 @@ const Projects = () => {
     const featuredProjects = projects.slice(0, 4);
 
     return (
-        <section className=" dark:bg-[#09090b] relative overflow-hidden">
+        <section className="relative overflow-hidden">
 
             <div className="max-w-6xl mx-auto px-6 relative z-10">
                 {/* Section Header */}

@@ -116,8 +116,8 @@ const AllProjects = () => {
                         transition={{ duration: 1, ease: "easeOut" }}
                     >
                         <ShimmeringText
-                            text="Cooking More Projects..."
-                            className="text-[10vw] md:text-[5vw] font-bold leading-tight pb-4 tracking-tighter"
+                            text="Shipping More Soon"
+                            className="text-[9vw] md:text-[5vw] font-bold leading-tight pb-4 tracking-tighter"
                         />
                     </motion.div>
                     <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-zinc-50/50 dark:from-[#09090b] to-transparent" />

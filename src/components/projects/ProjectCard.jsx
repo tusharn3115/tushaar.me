@@ -77,9 +77,15 @@ const ProjectCard = ({ project, index }) => {
                                 href={project.live}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="p-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all"
+                                className="group/btn relative p-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all"
                             >
                                 <Globe size={14} />
+                                {/* Tooltip - Right Aligned */}
+                                <div className="absolute bottom-full mb-2 right-0 px-2 py-1 bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 text-[10px] font-bold rounded opacity-0 group-hover/btn:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-30">
+                                    Live Demo
+                                    {/* Arrow */}
+                                    <div className="absolute top-full right-2 border-4 border-transparent border-t-zinc-900 dark:border-t-zinc-100" />
+                                </div>
                             </a>
                         )}
                         {project.github && (
@@ -87,9 +93,15 @@ const ProjectCard = ({ project, index }) => {
                                 href={project.github}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="p-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all"
+                                className="group/btn relative p-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all"
                             >
                                 <Github size={14} />
+                                {/* Tooltip - Right Aligned */}
+                                <div className="absolute bottom-full mb-2 right-0 px-2 py-1 bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 text-[10px] font-bold rounded opacity-0 group-hover/btn:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-30">
+                                    GitHub Repo
+                                    {/* Arrow */}
+                                    <div className="absolute top-full right-2 border-4 border-transparent border-t-zinc-900 dark:border-t-zinc-100" />
+                                </div>
                             </a>
                         )}
                     </div>
@@ -104,7 +116,7 @@ const ProjectCard = ({ project, index }) => {
                 <div className="flex items-center mt-3 pl-2">
                     <div className="flex -space-x-2 hover:space-x-1 transition-all duration-300">
                         {stackItems.map((tech, i) => (
-                            <TechCircle key={i} tech={tech} />
+                            <TechCircle key={i} tech={tech} index={i} total={stackItems.length} />
                         ))}
                     </div>
                 </div>
@@ -114,15 +126,29 @@ const ProjectCard = ({ project, index }) => {
 };
 
 // Clean Circular Stack Item
-const TechCircle = ({ tech }) => {
+const TechCircle = ({ tech, index, total }) => {
+    // Determine tooltip position alignment
+    let tooltipPosClass = "left-1/2 -translate-x-1/2";
+    let arrowPosClass = "left-1/2 -translate-x-1/2";
+
+    if (index === 0) {
+        // First item: Align Left
+        tooltipPosClass = "left-0 translate-x-0";
+        arrowPosClass = "left-4 -translate-x-1/2";
+    } else if (index === total - 1) {
+        // Last item: Align Right
+        tooltipPosClass = "right-0 translate-x-0 left-auto";
+        arrowPosClass = "right-4 translate-x-1/2"; // approximate arrow position
+    }
+
     return (
-        <div className="group/tech relative flex items-center justify-center w-8 h-8 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 hover:z-20 transition-all duration-300 hover:scale-110 cursor-help shadow-xs">
+        <div className="group/tech relative flex items-center justify-center w-9 h-9 rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 hover:z-20 transition-all duration-300 hover:scale-110 cursor-help shadow-xs">
             {tech.icon ? (
                 <>
                     <img
                         src={tech.icon}
                         alt={tech.name}
-                        className={`w-4 h-4 object-contain ${tech.darkIcon ? 'dark:hidden' : (tech.invertDark ? 'dark:invert' : '')} opacity-80 group-hover/tech:opacity-100`}
+                        className={`w-5 h-5 object-contain ${tech.darkIcon ? 'dark:hidden' : (tech.invertDark ? 'dark:invert' : '')} opacity-80 group-hover/tech:opacity-100`}
                     />
                     {tech.darkIcon && (
                         <img
@@ -137,10 +163,10 @@ const TechCircle = ({ tech }) => {
             )}
 
             {/* Tooltip popping up */}
-            <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 text-[10px] font-bold rounded opacity-0 group-hover/tech:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-30">
+            <div className={`absolute bottom-full mb-2 px-2 py-1 bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 text-[10px] font-bold rounded opacity-0 group-hover/tech:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-30 ${tooltipPosClass}`}>
                 {tech.name}
                 {/* Arrow */}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-900 dark:border-t-zinc-100" />
+                <div className={`absolute top-full border-4 border-transparent border-t-zinc-900 dark:border-t-zinc-100 ${arrowPosClass}`} />
             </div>
         </div>
     );

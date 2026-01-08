@@ -70,7 +70,7 @@ const AppContent = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="min-h-screen text-gray-600 dark:text-gray-400 font-inter selection:bg-gray-900 selection:text-white pb-32"
+            className="min-h-screen text-gray-600 dark:text-gray-400 font-inter selection:bg-gray-900 selection:text-white pb-8"
           >
             <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 relative z-10 w-full">
               <Routes>

@@ -27,7 +27,31 @@ const ComponentsPage = () => {
         }
         return 0;
     });
-    const [isSidebarOpen, setSidebarOpen] = useState(true);
+    const [isSidebarOpen, setSidebarOpen] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return window.innerWidth >= 768; // Open by default on desktop, closed on mobile
+        }
+        return true;
+    });
+
+    // Handle Window Resize
+    React.useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setSidebarOpen(false);
+            } else {
+                setSidebarOpen(true);
+            }
+        };
+
+        // Optional: only shrink on cross-boundary, but for simplicity:
+        // window.addEventListener('resize', handleResize);
+        // return () => window.removeEventListener('resize', handleResize);
+        // Actually, better not to auto-close if user opened it, just initial state is enough usually.
+        // But for "responsiveness", if I resize from desktop to mobile, it should close?
+        // Let's stick to initial state for now to avoid annoyance, or just simple check.
+    }, []);
+
     const [viewMode, setViewMode] = useState('preview'); // 'preview' | 'code'
     const { theme, toggleTheme } = useTheme();
     const [searchQuery, setSearchQuery] = useState('');
@@ -50,15 +74,31 @@ const ComponentsPage = () => {
     }, {});
 
     return (
-        <div className="flex h-screen bg-zinc-50 dark:bg-[#0c0c0e] text-zinc-950 dark:text-zinc-50 overflow-hidden font-inter selection:bg-zinc-200 dark:selection:bg-zinc-800 transition-colors duration-500">
+        <div className="flex h-screen bg-zinc-50 dark:bg-[#0c0c0e] text-zinc-950 dark:text-zinc-50 overflow-hidden font-inter selection:bg-zinc-200 dark:selection:bg-zinc-800 transition-colors duration-500 relative">
             <div className="noise-bg-fixed opacity-20" />
+
+            {/* Mobile Backdrop */}
+            <AnimatePresence>
+                {isSidebarOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setSidebarOpen(false)}
+                        className="fixed inset-0 bg-black/20 dark:bg-black/40 z-20 md:hidden backdrop-blur-sm"
+                    />
+                )}
+            </AnimatePresence>
 
             {/* Sidebar */}
             <motion.aside
                 initial={false}
                 animate={{ width: isSidebarOpen ? 280 : 0, opacity: isSidebarOpen ? 1 : 0 }}
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className="h-full border-r border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#0c0c0e]/50 backdrop-blur-xl flex flex-col flex-shrink-0 overflow-hidden relative z-20 group/sidebar"
+                className={cn(
+                    "h-full border-r border-black/5 dark:border-white/5 bg-white/80 dark:bg-[#0c0c0e]/80 backdrop-blur-xl flex flex-col flex-shrink-0 overflow-hidden z-30 group/sidebar",
+                    "fixed md:relative inset-y-0 left-0" // Fixed on mobile, relative on desktop
+                )}
             >
                 <div className="w-[280px] h-full flex flex-col">
                     {/* Header */}
@@ -108,6 +148,7 @@ const ComponentsPage = () => {
                                                 onClick={() => {
                                                     setSelectedId(globalIndex);
                                                     setViewMode('preview');
+                                                    if (window.innerWidth < 768) setSidebarOpen(false); // Close on selection on mobile
                                                 }}
                                                 className={cn(
                                                     "w-full text-left px-3 py-1.5 text-[13px] transition-all duration-200 cursor-pointer rounded-md border-l-[2px] flex items-center gap-2",
@@ -135,6 +176,18 @@ const ComponentsPage = () => {
 
             {/* Main Content */}
             <main className="flex-1 flex flex-col min-w-0 bg-transparent relative z-10 font-sans h-screen overflow-hidden">
+
+                {/* Mobile Marquee - Top of View */}
+                <div className="md:hidden py-1.5 bg-black dark:bg-white overflow-hidden text-white dark:text-black shrink-0 relative z-40">
+                    <motion.div
+                        animate={{ x: ["0%", "-50%"] }}
+                        transition={{ duration: 12, ease: "linear", repeat: Infinity }}
+                        className="whitespace-nowrap flex gap-8 text-[10px] font-bold tracking-widest uppercase"
+                    >
+                        <span>View in laptop or pc for better view ✦ View in laptop or pc for better view ✦ View in laptop or pc for better view ✦</span>
+                        <span>View in laptop or pc for better view ✦ View in laptop or pc for better view ✦ View in laptop or pc for better view ✦</span>
+                    </motion.div>
+                </div>
 
                 {/* Top Toolbar */}
                 <header className="h-14 border-b border-black/5 dark:border-white/5 flex items-center justify-between px-6 bg-white/70 dark:bg-[#0c0c0e]/70 backdrop-blur-xl sticky top-0 z-30 shrink-0">
@@ -233,11 +286,13 @@ const ComponentsPage = () => {
                                                 </button>
                                             </div>
 
-                                            <div className="relative rounded-xl border border-black/5 dark:border-white/10 bg-white dark:bg-[#121214] min-h-[500px] shadow-sm overflow-hidden">
+                                            <div className="relative rounded-xl border border-black/5 dark:border-white/10 bg-white dark:bg-[#121214] min-h-[500px] shadow-sm overflow-hidden flex flex-col">
                                                 {viewMode === 'preview' ? (
-                                                    <div className="w-full min-h-[500px] flex items-center justify-center p-8 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:20px_20px]">
-                                                        <div className="absolute inset-0 bg-white/50 dark:bg-[#09090b]/50 pointer-events-none" />
-                                                        <div className="relative z-10 w-full flex justify-center">
+                                                    // Added overflow-x-auto for mobile interactive scrolling
+                                                    <div className="w-full h-full min-h-[500px] flex items-center justify-center p-4 md:p-8 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:20px_20px] overflow-x-auto overflow-y-hidden">
+                                                        {/* Force container to allow width expansion if needed. Sticky keeps it in view while scrolling. */}
+                                                        <div className="inset-0 bg-white/50 dark:bg-[#09090b]/50 pointer-events-none sticky left-0 top-0" />
+                                                        <div className="relative z-10 w-full flex justify-center min-w-min">
                                                             {selectedItem?.component}
                                                         </div>
                                                     </div>

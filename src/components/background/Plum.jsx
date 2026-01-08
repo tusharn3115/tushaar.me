@@ -54,7 +54,9 @@ const Plum = () => {
         // Styling
         // Light Mode: Subtle dark lines (#888888 with very low opacity 0.05)
         // Dark Mode: Subtle white lines (#ffffff with very low opacity 0.05)
-        ctx.strokeStyle = theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
+        const isMobile = width < 768;
+        const opacity = isMobile ? 0.015 : 0.05; // Less opacity on mobile
+        ctx.strokeStyle = theme === 'dark' ? `rgba(255, 255, 255, ${opacity})` : `rgba(0, 0, 0, ${opacity})`;
         ctx.lineWidth = 1;
 
         let steps = [];

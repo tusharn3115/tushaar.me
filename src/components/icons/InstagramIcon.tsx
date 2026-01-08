@@ -43,7 +43,7 @@ const InstagramIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
         return (
             <motion.div
                 ref={scope}
-                className={`inline-flex cursor-pointer ${className}`}
+                className={`inline-flex cursor-pointer mt-[6px] md:mt-0 ${className}`}
                 onHoverStart={start}
                 onHoverEnd={stop}
             >

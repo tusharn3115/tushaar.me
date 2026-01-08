@@ -62,7 +62,7 @@ const Header = () => {
             </div>
 
             {/* Profile Info */}
-            <div className="px-6 relative -mt-20 flex flex-col items-start">
+            <div className="relative -mt-20 flex flex-col items-start">
                 {/* Profile Picture */}
                 <motion.div
                     initial={{ scale: 0.9, opacity: 0 }}
@@ -103,45 +103,47 @@ const Header = () => {
                 </div>
 
                 {/* Role & Bio */}
-                <div className="mt-6 w-full">
-                    <h2 className="text-4xl sm:text-[2.75rem] font-instrument italic font-normal text-gray-900 dark:text-white tracking-tighter leading-[1.1] mb-6 transition-colors duration-300">
-                        Building Polished<br />
-                        <span className="text-gray-400 dark:text-gray-500 not-italic font-inter font-light tracking-tight">Digital Experiences.</span>
+                <div className="mt-8 w-full">
+                    <h2 className="text-3xl sm:text-4xl font-instrument italic font-normal text-zinc-800 dark:text-zinc-100 tracking-tight leading-[1.15] mb-6 transition-colors duration-300">
+                        Building Polished <br />
+                        <span className="text-zinc-400 dark:text-zinc-600 not-italic font-inter font-light">Digital Experiences.</span>
                     </h2>
 
-                    <div className="text-lg text-gray-500 dark:text-gray-400 leading-relaxed font-light font-inter transition-colors duration-300">
+                    <div className="text-sm sm:text-base text-zinc-500 dark:text-zinc-400 leading-7 font-light font-inter transition-colors duration-300">
                         Currently a Frontend Developer at{" "}
-                        <a href="https://fantasticfare.com/" target="_blank" rel="noopener noreferrer">
+                        <a href="https://fantasticfare.com/" target="_blank" rel="noopener noreferrer" className="inline-flex items-baseline text-zinc-800 dark:text-zinc-200 font-medium hover:text-black dark:hover:text-white transition-colors duration-200 decoration-zinc-300/50 underline underline-offset-4 decoration-1">
                             <Tooltip
                                 text="FantasticFare"
-                                underline={true}
+                                underline={false}
                                 content={
-                                    <div className="flex flex-col gap-2">
-                                        <div className="flex items-center gap-2 text-[#4daaf7] dark:text-[#1D9BF0] font-semibold text-sm">
-                                            <Building2 size={16} />
+                                    <div className="flex flex-col gap-2 p-1">
+                                        <div className="flex items-center gap-2 text-[#4daaf7] dark:text-[#1D9BF0] font-semibold text-xs">
+                                            <Building2 size={14} />
                                             <span>FantasticFare</span>
                                         </div>
-                                        <p className="text-gray-300 dark:text-gray-600 leading-snug">Global travel technology & sales optimization platform.</p>
+                                        <p className="text-zinc-400 dark:text-zinc-500 text-[11px] leading-snug">Global travel technology & sales optimization platform.</p>
                                         <div className="flex gap-2 mt-1">
-                                            <span className="text-[10px] bg-white/10 dark:bg-gray-200 px-1.5 py-0.5 rounded text-gray-200 dark:text-gray-700">USA</span>
-                                            <span className="text-[10px] bg-white/10 dark:bg-gray-200 px-1.5 py-0.5 rounded text-gray-200 dark:text-gray-700">Remote</span>
+                                            <span className="text-[9px] uppercase tracking-wider bg-zinc-100 dark:bg-white/5 px-1.5 py-0.5 rounded-sm text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/5">USA</span>
+                                            <span className="text-[9px] uppercase tracking-wider bg-zinc-100 dark:bg-white/5 px-1.5 py-0.5 rounded-sm text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-white/5">Remote</span>
                                         </div>
                                     </div>
                                 }
-                            /></a>
+                            />
+                        </a>
                         . Previously, I freelanced for various national and international clients. I build polished interfaces and seamless user experiences, guided by the philosophy that the best animations feel so natural they go entirely unnoticed.
                     </div>
                 </div>
 
                 {/* Location with FIXED Map Tooltip */}
-                <div className="flex items-center gap-6 pt-8 text-xs tracking-wide uppercase text-gray-400 font-semibold font-inter">
+                <div className="mt-8 pt-6 border-t border-zinc-100 dark:border-white/5 flex items-center gap-6 text-[11px] tracking-[0.2em] uppercase text-zinc-400 font-medium font-inter">
                     <a
                         href={mapLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 transition-colors cursor-pointer hover:text-[#111827] dark:hover:text-white"
+                        className="group flex items-center gap-2 transition-colors cursor-pointer hover:text-zinc-900 dark:hover:text-white"
                     >
-                        <MapPin size={14} className="text-gray-300" /> Chandigarh, India
+                        <MapPin size={12} className="text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors duration-300" />
+                        Chandigarh, India
                     </a>
                 </div>
             </div>
