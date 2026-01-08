@@ -105,8 +105,8 @@ const ComponentsPage = () => {
                     {/* Header */}
                     <div className="h-14 px-5 flex items-center justify-between border-b border-black/5 dark:border-white/5 flex-shrink-0">
                         <Link to="/" className="flex items-center gap-2.5 group opacity-70 hover:opacity-100 transition-opacity">
-                            <div className="w-8 h-8 flex items-center justify-center bg-black/5 dark:bg-white/10 rounded-lg">
-                                <Logo className="w-5 h-5" />
+                            <div className="w-9 h-9 flex items-center justify-center rounded-lg">
+                                <Logo className="w-6 h-6" />
                             </div>
                             <span className="font-semibold text-sm tracking-tight font-instrument italic text-lg">Portfolio</span>
                         </Link>
@@ -176,7 +176,7 @@ const ComponentsPage = () => {
             </motion.aside>
 
             {/* Main Content */}
-            <main className="flex-1 flex flex-col min-w-0 bg-transparent relative z-10 font-sans h-screen overflow-hidden">
+            <main className="flex-1 flex flex-col min-w-0 bg-transparent relative z-10 font-sans overflow-hidden">
 
                 {/* Mobile Marquee - Top of View */}
                 <div className="md:hidden py-1.5 bg-black dark:bg-white overflow-hidden text-white dark:text-black shrink-0 relative z-40">

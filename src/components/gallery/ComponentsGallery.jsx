@@ -50,7 +50,7 @@ const ComponentsGallery = () => {
     const [activeTitle, setActiveTitle] = useState(null);
 
     return (
-        <section className="py-20 bg-transparent">
+        <section className="py-16 bg-transparent">
             <CursorTooltip title={activeTitle} />
             <div className="container mx-auto px-6">
 

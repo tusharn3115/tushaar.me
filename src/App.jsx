@@ -33,7 +33,7 @@ const AppContent = () => {
   return (
     <>
       <ScrollToTop />
-      <SmoothScroll />
+      {!isComponentPage && <SmoothScroll />}
       {/* <CustomCursor /> */}
       <div className="noise-bg-fixed" />
 
