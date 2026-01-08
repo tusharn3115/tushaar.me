@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import ProjectCard from './ProjectCard';
 import { projects } from '../../data/portfolioData';
+import Footer from '../footer/Footer';
 import { ShimmeringText } from '../ui/ShimmeringText';
 
 import { Helmet } from 'react-helmet-async';
@@ -33,7 +34,7 @@ const AllProjects = () => {
     };
 
     return (
-        <main className="min-h-screen dark:bg-[#09090b] pt-32 pb-24">
+        <main className="min-h-screen dark:bg-[#09090b] pt-5">
             <Helmet>
                 <title>All Projects — Tushar Negi</title>
                 <meta name="description" content="A curated archive of my creative journey—spanning shipping web applications, open source experiments, and digital craftsmanship." />
@@ -107,20 +108,8 @@ const AllProjects = () => {
                     ))}
                 </motion.div>
 
-                {/* Footer Note */}
-                <div className="text-center relative pointer-events-none select-none overflow-hidden pt-20">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, ease: "easeOut" }}
-                    >
-                        <ShimmeringText
-                            text="Shipping More Soon"
-                            className="text-[9vw] md:text-[5vw] font-bold leading-tight pb-4 tracking-tighter"
-                        />
-                    </motion.div>
-                    <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-zinc-50/50 dark:from-[#09090b] to-transparent" />
+                <div className="mt-20">
+                    <Footer />
                 </div>
             </div>
         </main>

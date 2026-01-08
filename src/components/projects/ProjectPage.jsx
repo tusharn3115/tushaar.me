@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { Github, Globe, Home, LayoutGrid } from 'lucide-react';
 import { projects } from '../../data/portfolioData';
 import Tooltip from '../ui/Tooltip';
+import Footer from '../footer/Footer';
 
 const ProjectPage = () => {
     const { id } = useParams();
@@ -201,6 +202,10 @@ const ProjectPage = () => {
                                 </div>
                             </Link>
                         </div>
+                    </div>
+
+                    <div className="pt-10">
+                        <Footer />
                     </div>
 
                 </div>

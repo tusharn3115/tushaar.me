@@ -10,6 +10,7 @@ import ComponentsGallery from '../gallery/ComponentsGallery';
 import Experience from '../experience/Experience';
 import Contact from '../contact/Contact';
 import Footer from '../footer/Footer';
+import QuoteSection from '../footer/QuoteSection';
 import SectionHeading from '../ui/SectionHeading';
 import TechStack from './TechStack';
 import { Helmet } from 'react-helmet-async';
@@ -85,6 +86,7 @@ const Home = () => {
 
             {/* Footer */}
             <motion.div variants={itemVariants}>
+                <QuoteSection />
                 <Footer />
             </motion.div>
 
@@ -93,3 +95,4 @@ const Home = () => {
 };
 
 export default Home;
+

@@ -16,6 +16,7 @@ import MoonIcon from '../icons/MoonIcon';
 import EyeIcon from '../icons/EyeIcon';
 import CodeIcon from '../icons/CodeIcon';
 import { cn } from '../../lib/utils'; // Assuming you have this utility
+import Footer from '../footer/Footer';
 
 
 const ComponentsPage = () => {
@@ -385,10 +386,15 @@ const ComponentsPage = () => {
 
                         </div>
                     </div>
+
+                    <div className="px-8 pb-8 border-t border-black/5 dark:border-white/5 pt-10 text-center md:text-left">
+                        <Footer />
+                    </div>
                 </div>
             </main>
         </div>
     );
+
 };
 
 export default ComponentsPage;
