@@ -1,7 +1,5 @@
 <img width="1905" height="844" alt="image" src="https://github.com/user-attachments/assets/c9336f2c-c281-4f50-9f9a-bb59bee804ca" /># Personal Portfolio Website
 
-![Project Banner](<img width="1904" height="850" alt="image" src="https://github.com/user-attachments/assets/7a29fad8-9271-4b38-a8d4-4242b18529b3" />
-) 
 A minimal, high-performance personal portfolio website designed to showcase my projects, writing, and technical skills. Built with a focus on clean UI/UX, smooth animations, and accessibility.
 
 🔗 **Live Demo:** [Insert Your Live URL Here](https://tushaar.me)
