@@ -2,7 +2,7 @@
 
 A minimal, high-performance personal portfolio website designed to showcase my projects, writing, and technical skills. Built with a focus on clean UI/UX, smooth animations, and accessibility.
 
-🔗 **Live Demo:** [Insert Your Live URL Here](https://tushaar.me)
+🔗 **Live Demo:** [tushaar.me](https://tushaar.me)
 
 ## ✨ Key Features
 
