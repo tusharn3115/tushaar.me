@@ -1,3 +1,4 @@
+import React from 'react'; // Added React import for the JSX in componentsList
 import PeelingCheckbox from '../components/ui/PeelingCheckbox';
 import AskAI from '../components/ui/AskAI';
 import ClickSparkles from '../components/ui/ClickSparkles';
@@ -1521,9 +1522,9 @@ const Waveform = () => {
             ))}
         </motion.div>
     );
-};
+};`;
 
-const DynamicIsland = \`"use client";
+const DynamicIslandCode = `"use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -1767,7 +1768,7 @@ function IconLink({ icon, label }) {
         </motion.div>
     );
 }
-};`;
+`;
 
 export const componentsList = [
     {
@@ -1782,7 +1783,7 @@ export const componentsList = [
 
 // Usage
 <div className="h-[600px] w-full bg-white relative">
-  <AskAI />
+    <AskAI />
 </div>`
     },
     {
@@ -1810,7 +1811,7 @@ export const componentsList = [
 
 // Usage
 <div className="flex items-center justify-center h-screen bg-neutral-900">
-  <GlassyFolder />
+    <GlassyFolder />
 </div>`
     },
     {
@@ -1860,7 +1861,7 @@ export const componentsList = [
         title: 'Dynamic Island',
         description: 'An interactive, expanding pill that morphs into a detailed card, inspired by iOS Dynamic Island.',
         component: <DynamicIsland />,
-        code: DynamicIsland,
+        code: DynamicIslandCode,
         category: 'UI Components',
         install: 'npm install motion lucide-react',
         usage: `import DynamicIsland from './DynamicIsland';
