@@ -193,8 +193,8 @@ button,
 
 /* Custom Premium Scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   background: transparent;
 }
 
