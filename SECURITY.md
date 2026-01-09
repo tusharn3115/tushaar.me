@@ -13,8 +13,8 @@ This project is a personal portfolio website. Security updates are applied to th
 If you discover a security vulnerability in this project, please report it responsibly by following these steps:
 
 1. **Do not** open a public issue for the vulnerability.
-2. Email the maintainer directly at: [Report via GitHub Security Advisory](https://github.com/tusharn3115/tushaar.me/security/advisories/new)
-3. Alternatively, you can open a private security advisory on GitHub.
+2. **Preferred Method**: Open a private security advisory on GitHub at: [Report via GitHub Security Advisory](https://github.com/tusharn3115/tushaar.me/security/advisories/new)
+3. Alternatively, you can contact the maintainer through GitHub discussions or by opening a draft security advisory.
 
 ### What to Include
 
