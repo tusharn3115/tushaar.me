@@ -3,14 +3,15 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 // --- Components ---
-import Navbar from './components/navbar/Navbar';
-import Plum from './components/background/Plum';
-import GridPattern from './components/background/GridPattern';
-import Home from './components/home/Home';
-import BlogList from './components/blog/BlogList';
-import BlogPost from './components/blog/BlogPost';
-import ComponentsPage from './components/component-page/ComponentsPage';
-import AllProjects from './components/projects/AllProjects';
+// --- Components ---
+import Navbar from './components/layout/Navbar/Navbar';
+import Plum from './components/ui/background/Plum';
+import GridPattern from './components/ui/background/GridPattern';
+import Home from './pages/Home';
+import BlogList from './pages/Blog';
+import BlogPost from './pages/BlogPost';
+import ComponentsPage from './pages/Components';
+import AllProjects from './pages/Projects';
 
 import { AnimatePresence, motion } from 'motion/react';
 import CustomCursor from './components/ui/CustomCursor';

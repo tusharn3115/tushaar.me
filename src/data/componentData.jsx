@@ -1,10 +1,10 @@
-import PeelingCheckbox from '../components/ui-components/PeelingCheckbox';
-import AskAI from '../components/ui-components/AskAI';
-import ClickSparkles from '../components/ui-components/ClickSparkles';
-import FileTree from '../components/ui-components/FileTree';
-import GlassyFolder from '../components/ui-components/GlassyFolder';
-import VoiceConversation from '../components/ui-components/VoiceConversation';
-import DynamicIsland from '../components/ui-components/DynamicIsland';
+import PeelingCheckbox from '../components/ui/PeelingCheckbox';
+import AskAI from '../components/ui/AskAI';
+import ClickSparkles from '../components/ui/ClickSparkles';
+import FileTree from '../components/ui/FileTree';
+import GlassyFolder from '../components/ui/GlassyFolder';
+import VoiceConversation from '../components/ui/VoiceConversation';
+import DynamicIsland from '../components/ui/DynamicIsland';
 
 // PLACEHOLDERS
 const PeelingCheckboxCode = `import React, { useState, useEffect } from 'react';
