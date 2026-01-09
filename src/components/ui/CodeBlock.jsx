@@ -5,8 +5,31 @@ import { motion, AnimatePresence } from 'motion/react';
 const CodeBlock = ({ code, fileName = 'JSX' }) => {
     const [copied, setCopied] = useState(false);
 
+    // FIX START: Normalize the input
+    let displayCode = code;
+
+    // If a function is passed (e.g., <CodeBlock code={MyComponent} />), convert it to a string
+    if (typeof code === 'function') {
+        displayCode = code.toString();
+    }
+    // If an object is passed, try to stringify it
+    else if (typeof code === 'object' && code !== null) {
+        try {
+            displayCode = JSON.stringify(code, null, 2);
+        } catch (e) {
+            console.warn("Could not stringify object passed to CodeBlock");
+        }
+    }
+
+    // Validation
+    if (typeof displayCode !== 'string') {
+        console.error("CodeBlock received invalid content:", code);
+        return <div className="p-4 text-red-500 bg-red-50/50 rounded-lg text-sm">Error: Code content is not available.</div>;
+    }
+    // FIX END
+
     const handleCopy = () => {
-        navigator.clipboard.writeText(code);
+        navigator.clipboard.writeText(displayCode);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
@@ -61,7 +84,8 @@ const CodeBlock = ({ code, fileName = 'JSX' }) => {
             <div className="p-4 overflow-x-auto custom-scrollbar bg-zinc-50/50 dark:bg-[#0c0c0e] text-zinc-600 dark:text-zinc-300 border-t border-transparent">
                 <pre className="font-mono text-[13px] leading-6">
                     <code className="table w-full">
-                        {code.split('\n').map((line, i) => (
+                        {/* Use displayCode instead of code */}
+                        {displayCode.split('\n').map((line, i) => (
                             <div key={i} className="table-row">
                                 <span className="table-cell text-right w-8 pr-4 select-none text-zinc-300 dark:text-zinc-700 text-xs">
                                     {i + 1}
@@ -75,7 +99,7 @@ const CodeBlock = ({ code, fileName = 'JSX' }) => {
                 </pre>
             </div>
 
-            <style jsx>{`
+            <style>{`
                 .custom-scrollbar::-webkit-scrollbar {
                     height: 8px;
                     width: 8px;
