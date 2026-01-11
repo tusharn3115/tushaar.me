@@ -16,6 +16,7 @@ import AllProjects from './pages/Projects';
 import { AnimatePresence, motion } from 'motion/react';
 import CustomCursor from './components/ui/CustomCursor';
 import SmoothScroll from './components/ui/SmoothScroll';
+import { Analytics } from '@vercel/analytics/react';
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -93,6 +94,7 @@ export default function Portfolio() {
   return (
     <Router>
       <AppContent />
+      <Analytics />
     </Router>
   );
 }
