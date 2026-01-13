@@ -50,15 +50,3 @@ Follow these steps to set up the project locally on your machine.
     ```
 
 4.  Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
-
-## 📂 Project Structure
-
-```text
-src/
-├── components/       # Reusable UI components (SearchModal, Layout, etc.)
-├── context/          # React Contexts (Theme, Global state)
-├── data/             # Static data files (portfolioData.js, etc.)
-├── pages/            # Page components (Home, Projects, About)
-├── styles/           # Global styles and Tailwind directives
-├── App.jsx           # Main application entry point
-└── main.jsx          # DOM renderer
